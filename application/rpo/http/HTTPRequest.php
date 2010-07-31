@@ -61,6 +61,8 @@ use \ReflectionException;
 use rpo\http\HTTPHeaderSet;
 use rpo\http\HTTPBody;
 
+use \ArrayObject;
+
 /**
  * Representação da requisição do usuário
  * @final
