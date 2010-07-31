@@ -10,7 +10,7 @@
  * 2. O direito de estudar como o programa funciona e adptá-lo para suas necessidades.
  * 3. O direito de redistribuir cópias, permitindo assim que você ajude outras pessoas.
  * 4. O direito de aperfeiçoar o programa, e distribuir seus aperfeiçoamentos para o público,
- *    beneficiando assim toda a comunidade.
+ * beneficiando assim toda a comunidade.
  *
  * Você terá os direitos acima especificados contanto que Você cumpra com os requisitos expressos
  * nesta Licença.
@@ -52,19 +52,61 @@
  * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
  * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
  * @package		rpo
- * @subpackage	gui\widget\panel
+ * @subpackage	gui\widget
  */
-namespace rpo\gui\widget\panel;
+namespace rpo\gui\widget;
+
+use rpo\base\String;
 
 /**
- * Interface para definição de um painel da interface de usuário
+ * Implementação da tag P
+ * @abstract
  * @package		rpo
- * @subpackage	gui\widget\panel
+ * @subpackage	gui\widget
  * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
  */
-interface Panel extends \rpo\base\BaseObject, \Countable {
+class Paragraph extends \rpo\gui\widget\base\ComplexWidget {
 	/**
-	 * Remove todos os filhos do painel
+	 * Texto do parágrafo
+	 * @var \rpo\base\String
 	 */
-	public function clear();
+	private $text;
+
+	/**
+	 * Constroi o objeto que representa a tag P
+	 * @param String $text Conteúdo do parágrafo
+	 */
+	public function __construct( String $text = null ){
+		parent::__construct();
+
+		$this->text = $text;
+	}
+
+	/**
+	 * Desenha o componente
+	 */
+	public function draw(){
+		$id = $this->getId();
+		$style = $this->getStyleName();
+
+		echo '<p';
+
+		if ( !$id->isEmpty() ){
+			echo ' id="' , $id , '"';
+		}
+
+		if ( !$style->isEmpty() ){
+			echo ' class="' , $style , '"';
+		}
+
+		echo '>';
+
+		if ( !is_null( $this->text ) && !$this->text->isEmpty() ){
+			echo $this->text;
+		}
+
+		$this->drawAll();
+
+		echo '</p>';
+	}
 }

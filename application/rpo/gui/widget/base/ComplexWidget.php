@@ -65,7 +65,7 @@ namespace rpo\gui\widget\base;
  */
 abstract class ComplexWidget extends \rpo\gui\widget\base\Widget {
 	/**
-	 * Retornamos sempre true, já que se trata de um Leaf
+	 * Retornamos sempre false
 	 * @final
 	 * @return boolean
 	 */
@@ -79,8 +79,10 @@ abstract class ComplexWidget extends \rpo\gui\widget\base\Widget {
 	 */
 	protected function drawAll() {
 		if (  !$this->isLeaf() ) {
-			foreach ( $this as $child ) {
-				$child->draw();
+			$iterator = $this->getIterator();
+
+			for ( $iterator->rewind() ; $iterator->valid() ; $iterator->next() ){
+				$iterator->current()->draw();
 			}
 		}
 	}

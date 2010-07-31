@@ -66,7 +66,7 @@ use rpo\gui\composite\ComponentList;
  * @subpackage	gui\composite
  * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
  */
-abstract class Component extends \rpo\gui\UIObject implements \IteratorAggregate {
+abstract class Component extends \rpo\base\Object implements \IteratorAggregate {
 	/**
 	 * Lista de filhos do componente
 	 * @access	protected

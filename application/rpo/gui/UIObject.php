@@ -66,7 +66,7 @@ use rpo\base\String;
  * @subpackage	gui
  * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
  */
-abstract class UIObject extends \rpo\base\Object {
+abstract class UIObject extends \rpo\gui\composite\Component {
 	/**
 	 * Altura do objeto
 	 * @access	private
@@ -134,6 +134,8 @@ abstract class UIObject extends \rpo\base\Object {
 	 * Constroi o objeto de interface de usuário
 	 */
 	public function __construct(){
+		parent::__construct();
+
 		$this->id = new String( uniqid( 'id' ) );
 		$this->name = new String();
 		$this->style = new String();
@@ -162,7 +164,7 @@ abstract class UIObject extends \rpo\base\Object {
 
 	/**
 	 * Recupera o ID do objeto
-	 * @return String
+	 * @return \rpo\base\String
 	 */
 	public function getId(){
 		return $this->id;

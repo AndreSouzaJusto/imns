@@ -10,7 +10,7 @@
  * 2. O direito de estudar como o programa funciona e adptá-lo para suas necessidades.
  * 3. O direito de redistribuir cópias, permitindo assim que você ajude outras pessoas.
  * 4. O direito de aperfeiçoar o programa, e distribuir seus aperfeiçoamentos para o público,
- *    beneficiando assim toda a comunidade.
+ * beneficiando assim toda a comunidade.
  *
  * Você terá os direitos acima especificados contanto que Você cumpra com os requisitos expressos
  * nesta Licença.
@@ -52,19 +52,66 @@
  * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
  * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
  * @package		rpo
- * @subpackage	gui\widget\panel
+ * @subpackage	gui\widget
  */
-namespace rpo\gui\widget\panel;
+namespace rpo\gui\widget;
+
+use rpo\base\String;
 
 /**
- * Interface para definição de um painel da interface de usuário
+ * Implementação da tag H1-6
+ * @abstract
  * @package		rpo
- * @subpackage	gui\widget\panel
+ * @subpackage	gui\widget
  * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
  */
-interface Panel extends \rpo\base\BaseObject, \Countable {
+class Heading extends \rpo\gui\widget\base\SimpleWidget {
 	/**
-	 * Remove todos os filhos do painel
+	 * Nível do cabeçalho
+	 * @var integer
 	 */
-	public function clear();
+	private $level = 1;
+
+	/**
+	 * Texto do cabeçalho
+	 * @var \rpo\base\String
+	 */
+	private $heading;
+
+	/**
+	 * Constroi o objeto que representa a tag H1-6
+	 * @param String $heading Conteúdo da tag
+	 * @param integer $level Nível da tag (1-6)
+	 * @throws InvalidArgumentException Se $level for menor que 1 ou maior que 6
+	 */
+	public function __construct( String $heading , $level = 1 ){
+		parent::__construct();
+
+		if ( is_integer( $level ) && ( ( $level >= 1 ) && ( $level <= 6 ) ) ){
+			$this->level = $level;
+			$this->heading = $heading;
+		} else {
+			throw new InvalidArgumentException( 'É esperado para $level um valor numérico entre 1 e 6, inclusive.' );
+		}
+	}
+
+	/**
+	 * Desenha o componente
+	 */
+	public function draw(){
+		$id = $this->getId();
+		$style = $this->getStyleName();
+
+		echo '<h' , $this->level;
+
+		if ( !$id->isEmpty() ){
+			echo ' id="' , $id , '"';
+		}
+
+		if ( !$style->isEmpty() ){
+			echo ' class="' , $style , '"';
+		}
+
+		echo '>' , $this->heading , '</h' , $this->level , '>';
+	}
 }

@@ -66,7 +66,7 @@ use rpo\gui\widget\base\Widget;
  * @subpackage	gui\widget\panel
  * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
  */
-final class RootPanel extends \rpo\gui\widget\base\ComplexWidget implements \rpo\gui\widget\panel\Panel {
+final class RootPanel extends \rpo\gui\widget\panel\SimplePanel {
 	/**
 	 * Verifica se o componente aceita um outro componente como filho
 	 * @param \rpo\gui\widget\base\Widget $component
@@ -79,13 +79,6 @@ final class RootPanel extends \rpo\gui\widget\base\ComplexWidget implements \rpo
 		} else {
 			throw new LengthException( 'RootPanel aceita apenas 1 widget.' );
 		}
-	}
-
-	/**
-	 * Remove todos os filhos do componente
-	 */
-	public function clear() {
-		$this->children->clear();
 	}
 
 	/**

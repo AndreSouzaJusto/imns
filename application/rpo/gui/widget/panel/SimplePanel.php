@@ -57,14 +57,61 @@
 namespace rpo\gui\widget\panel;
 
 /**
- * Interface para definição de um painel da interface de usuário
+ * Implementação de um painel simples, que utiliza a marcação HTML <div>
  * @package		rpo
  * @subpackage	gui\widget\panel
  * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
  */
-interface Panel extends \rpo\base\BaseObject, \Countable {
+class SimplePanel extends \rpo\gui\widget\base\ComplexWidget implements Panel {
 	/**
-	 * Remove todos os filhos do painel
+	 * Recupera o número de filhos de primeiro nível do painel
+	 * @return integer
+	 * @see Countable::counr
 	 */
-	public function clear();
+	public function count(){
+		return $this->children->count();
+	}
+
+	/**
+	 * Remove todos os filhos do componente
+	 */
+	public function clear() {
+		$this->children->clear();
+	}
+
+	/**
+	 * Desenha o componente
+	 */
+	public function draw() {
+		$id = $this->getId();
+		$style = $this->getStyleName();
+		$tag = $this->getTagName();
+
+		printf( '<%s' , $tag );
+
+		if ( !$id->isEmpty() ){
+			printf( ' id="%s"' , $id );
+		}
+
+		if ( !$style->isEmpty() ){
+			printf( ' class="%s"' , $style );
+		}
+
+		if ( $this->count() >= 1 ){
+			echo '>';
+
+			$this->drawAll();
+			printf( '</%s>' , $tag );
+		} else {
+			echo ' />';
+		}
+	}
+
+	/**
+	 * Recupera o nome da tag que será usada como marcação do painel
+	 * @return string
+	 */
+	protected function getTagName(){
+		return 'div';
+	}
 }

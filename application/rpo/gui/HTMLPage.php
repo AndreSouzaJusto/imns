@@ -52,19 +52,126 @@
  * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
  * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
  * @package		rpo
- * @subpackage	gui\widget\panel
+ * @subpackage	gui
  */
-namespace rpo\gui\widget\panel;
+namespace rpo\gui;
+
+use rpo\base;
+
+use rpo\base\String;
 
 /**
- * Interface para definição de um painel da interface de usuário
+ * Interface para definição de uma página HTML
+ * @abstract
  * @package		rpo
- * @subpackage	gui\widget\panel
+ * @subpackage	gui
  * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
  */
-interface Panel extends \rpo\base\BaseObject, \Countable {
+class HTMLPage extends \rpo\gui\widget\base\ComplexWidget {
 	/**
-	 * Remove todos os filhos do painel
+	 * Conjunto de caracteres da página
+	 * @var \rpo\base\String
 	 */
-	public function clear();
+	private $charset;
+
+	/**
+	 * Idioma da página
+	 * @var \rpo\base\String
+	 */
+	private $language;
+
+	/**
+	 * Título da página
+	 * @var \rpo\base\String
+	 */
+	private $title;
+
+	/**
+	 * Constroi a página HTML
+	 * @param String $title Título da página
+	 */
+	public function __construct( String $title = null ){
+		parent::__construct();
+
+		if ( is_null( $title ) ){
+			$title = new String( 'Título não definido' );
+		}
+
+		$this->title = $title;
+		$this->charset = $title->getEncoding();
+		$this->language = new String( 'pt-br' );
+	}
+
+	/**
+	 * Recupera o conjunto de caracteres da página
+	 * @return \rpo\base\String
+	 */
+	public function getCharset(){
+		if ( is_null( $this->charset ) ){
+			$this->charset = new String( String::getDefaultEncoding() );
+		}
+
+		return $this->charset;
+	}
+
+	/**
+	 * Recupera o idioma da página
+	 * @return \rpo\base\String
+	 */
+	public function getLanguage(){
+		return $this->language;
+	}
+
+	/**
+	 * Recupera o título da página
+	 * @return \rpo\base\String
+	 */
+	public function getTitle(){
+		return $this->title;
+	}
+
+	/**
+	 * Desenha a página
+	 */
+	public function draw(){
+		$lang = $this->getLanguage();
+		echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' , PHP_EOL;
+		echo '<html xml:lang="' , $lang , '" lang="' , $lang , '" xmlns="http://www.w3.org/1999/xhtml">';
+		echo '<head>';
+		echo '<meta http-equiv="content-type" content="text/html; charset=' , $this->getCharset() , '" />';
+		echo '<title>' , $this->getTitle() , '</title>';
+		echo '</head>';
+		echo '<body>';
+
+		foreach ( $this->children->getIterator() as $child ){
+			$child->draw();
+		}
+
+		echo '</body>';
+		echo '</html>';
+	}
+
+	/**
+	 * Define o conjunto de caracteres da página
+	 * @param \rpo\base\String $charset
+	 */
+	public function setCharset( String $charset ){
+		$this->charset = $charset;
+	}
+
+	/**
+	 * Define o idioma da página
+	 * @param \rpo\base\String $language
+	 */
+	public function setLanguage( String $language ){
+		$this->language = $language;
+	}
+
+	/**
+	 * Define o título da página
+	 * @param \rpo\base\String $title
+	 */
+	public function setTitle( String $title ){
+		$this->title = $title;
+	}
 }

@@ -56,6 +56,7 @@
  */
 namespace rpo\gui\widget\base;
 
+use \InvalidArgumentException;
 use rpo\gui\UIObject;
 use rpo\gui\composite\Component;
 
@@ -66,7 +67,7 @@ use rpo\gui\composite\Component;
  * @subpackage	gui\widget\base
  * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
  */
-abstract class Widget extends \rpo\gui\composite\Component {
+abstract class Widget extends \rpo\gui\UIObject {
 	/**
 	 * Pai do widget
 	 * @var \rpo\gui\widget\base\Widget
