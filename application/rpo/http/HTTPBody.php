@@ -56,7 +56,7 @@
  */
 namespace rpo\http;
 
-use rpo\gui\Root;
+use rpo\gui\widget\panel\RootPanel;
 use \stdClass;
 
 /**
@@ -68,7 +68,7 @@ use \stdClass;
 class HTTPBody extends \rpo\base\Object {
 	/**
 	 * Objeto da composição da interface de usuário
-	 * @var \rpo\gui\Root
+	 * @var \rpo\gui\widget\RootPanel
 	 */
 	private $composite;
 
@@ -82,13 +82,13 @@ class HTTPBody extends \rpo\base\Object {
 	 * Constroi o objeto de corpo da requisição ou resposta
 	 */
 	public function __construct() {
-		$this->composite = new Root();
+		$this->composite = new RootPanel();
 		$this->data = new stdClass();
 	}
 
 	/**
 	 * Recupera o Componente root
-	 * @return \rpo\gui\Root
+	 * @return rpo\gui\widget\RootPanel
 	 */
 	public function getComposite() {
 		return $this->composite;
