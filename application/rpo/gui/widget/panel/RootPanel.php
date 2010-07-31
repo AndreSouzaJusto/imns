@@ -56,16 +56,31 @@
  */
 namespace rpo\gui\widget\panel;
 
+use \LengthException;
 use rpo\gui\widget\base\Widget;
 
 /**
- * Implementação do componente raiz da aplicação
+ * Implementação do componente raiz da aplicação, esse componente aceita 1 e apenas 1 componente como filho
  * @final
  * @package		rpo
  * @subpackage	gui\widget\panel
  * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
  */
 final class RootPanel extends \rpo\gui\widget\base\ComplexWidget implements \rpo\gui\widget\panel\Panel {
+	/**
+	 * Verifica se o componente aceita um outro componente como filho
+	 * @param \rpo\gui\widget\base\Widget $component
+	 * @return boolean
+	 * @throws \LengthException Se tentar adicionar mais que 1 widget ao RootPanel
+	 */
+	protected function accept( Widget $component ) {
+		if ( $this->children->count() == 0 ){
+			return true;
+		} else {
+			throw new LengthException( 'RootPanel aceita apenas 1 widget.' );
+		}
+	}
+
 	/**
 	 * Remove todos os filhos do componente
 	 */
