@@ -98,13 +98,10 @@ final class RootPanel extends \rpo\gui\widget\base\ComplexWidget implements \rpo
 	/**
 	 * Define o pai do widget
 	 * @return \rpo\gui\widget\Widget
-	 * @throws \LogicException Se o componente já possuir um pai
+	 * @throws \LogicException RootPanel é o componente de mais alto nível e, como tal,
+	 * jamais deve ser adicionado como filho de outro componente.
 	 */
 	public function setParent( Widget $father ){
-		if ( $this->isOrphan() ){
-			$this->father = $father;
-		} else {
-			throw new LogicException( 'Esse componente já possui um pai.' );
-		}
+		throw new LogicException( 'RootPanel não pode ser adicionado como filho.' );
 	}
 }
