@@ -1,6 +1,6 @@
 <?php
 /**
- * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior
+ * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
  * Assim como qualquer licença de Software Livre, ela concede a Você o exercício
