@@ -98,6 +98,8 @@ class String extends \rpo\base\Object {
 
 			if (  !is_null( self::$encoding ) ) {
 				$this->convertEncoding( self::$encoding );
+			} else {
+				self::$encoding = $this->storage->encoding;
 			}
 		} else {
 			throw new UnexpectedValueException( 'Esperávamos uma string' );
@@ -228,6 +230,14 @@ class String extends \rpo\base\Object {
 		$args = array_slice( $args , 1 , sizeof( $args ) - 1 );
 
 		return new String( call_user_func_array( 'sprintf' , array_merge( array( $format , $this->storage->data ) , $args ) ) );
+	}
+
+	/**
+	 * Recupera a codificação padrão das strings
+	 * @return string
+	 */
+	public static function getDefaultEncoding(){
+		return self::$encoding;
 	}
 
 	/**
@@ -383,8 +393,7 @@ class String extends \rpo\base\Object {
 	public function rtrim() {
 		$i = $this->length;
 
-		while ( $this->storage->data{  --$i } == ' ' )
-			;
+		while ( $this->storage->data{  --$i } == ' ' );
 
 		return $this->substring( 0 , $i + 1 );
 	}
