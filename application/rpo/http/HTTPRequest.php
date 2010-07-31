@@ -61,8 +61,6 @@ use \ReflectionException;
 use rpo\http\HTTPHeaderSet;
 use rpo\http\HTTPBody;
 
-use \ArrayObject;
-
 /**
  * Representação da requisição do usuário
  * @final
@@ -133,7 +131,7 @@ final class HTTPRequest extends \rpo\base\Object implements \rpo\http\HTTPIO {
 
 				$this->headers = new HTTPHeaderSet( $getallheaders->invoke() );
 			} catch ( ReflectionException $e ) {
-				$this->headers = new ArrayObject();
+				$this->headers = new HTTPHeaderSet();
 			}
 		}
 
