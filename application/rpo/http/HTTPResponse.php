@@ -99,7 +99,7 @@ final class HTTPResponse extends \rpo\base\Object implements \rpo\http\HTTPIO {
 
 	/**
 	 * Recupera o corpo da requisição ou resposta
-	 * @return rpo\http\HTTPBody
+	 * @return \rpo\http\HTTPBody
 	 */
 	public function getBody() {
 		return $this->body;

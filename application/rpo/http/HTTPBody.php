@@ -68,7 +68,7 @@ use \stdClass;
 class HTTPBody extends \rpo\base\Object {
 	/**
 	 * Objeto da composição da interface de usuário
-	 * @var \rpo\gui\widget\RootPanel
+	 * @var \rpo\gui\widget\panel\RootPanel
 	 */
 	private $composite;
 
@@ -88,7 +88,7 @@ class HTTPBody extends \rpo\base\Object {
 
 	/**
 	 * Recupera o Componente root
-	 * @return rpo\gui\widget\RootPanel
+	 * @return \rpo\gui\widget\panel\RootPanel
 	 */
 	public function getComposite() {
 		return $this->composite;

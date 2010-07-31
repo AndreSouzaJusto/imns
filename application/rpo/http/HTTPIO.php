@@ -65,7 +65,7 @@ namespace rpo\http;
 interface HTTPIO extends \rpo\base\BaseObject {
 	/**
 	 * Recupera o corpo da requisição ou resposta
-	 * @return \rpo\gui\Root
+	 * @return \rpo\http\HTTPBody
 	 */
 	public function getBody();
 
