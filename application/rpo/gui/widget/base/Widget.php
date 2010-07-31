@@ -76,6 +76,7 @@ abstract class Widget extends \rpo\gui\composite\Component {
 	/**
 	 * Verifica se o componente aceita um outro componente como filho
 	 * @param \rpo\gui\widget\base\Widget $component
+	 * @return boolean
 	 */
 	protected function accept( Widget $component ) {
 		return true;
