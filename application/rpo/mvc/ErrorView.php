@@ -56,23 +56,66 @@
  */
 namespace rpo\mvc;
 
+use \Exception;
+use rpo\base\String;
 use rpo\http\HTTPResponse;
+use rpo\http\header\fields\Protocol;
+use rpo\gui\HTMLPage;
+use rpo\gui\widget\Heading;
+use rpo\gui\widget\Paragraph;
+use rpo\gui\widget\panel\SimplePanel;
 
 /**
- * Interface para definição de uma View
+ * Implementação de uma página de erro simples
  * @package		rpo
  * @subpackage	mvc
  * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
  */
-interface View extends \rpo\base\BaseObject {
+class ErrorView extends \rpo\base\Object implements \rpo\mvc\View {
 	/**
-	 * Configura a View utilizando o componente Root
+	 * @var \Exception
+	 */
+	private $exception;
+
+	/**
+	 * Resposta HTTP
+	 * @var \rpo\http\HTTPResponse
+	 */
+	private $response;
+
+	/**
+	 * Constroi a View de erro
+	 * @param Exception $e
+	 */
+	public function __construct( Exception $e ){
+		$this->exception = $e;
+	}
+
+	/**
+	 * Configura a View
 	 * @param \rpo\http\HTTPResponse $panel
 	 */
-	public function configure( HTTPResponse $panel );
+	public function configure( HTTPResponse $response ){
+		$this->response = $response;
+		$this->response->getHeaders()->add( new Protocol( Protocol::HTTP_1_1 , $this->exception->getCode() ) );
+
+		$page = new HTMLPage();
+		$page->setTitle( new String( 'Ocorreu um erro.' ) );
+		$page->appendChild( $panel = new SimplePanel() );
+
+		$panel->setStyleName( new String( 'error' ) );
+		$panel->appendChild( new Heading( new String( 'Ocorreu um erro:' ) ) );
+		$panel->appendChild( new Paragraph( new String( $this->exception->getMessage() ) ) );
+
+		$root = $this->response->getBody()->getComposite();
+		$root->clear();
+		$root->appendChild( $page );
+	}
 
 	/**
 	 * Exibe a View
 	 */
-	public function show();
+	public function show(){
+		$this->response->show();
+	}
 }

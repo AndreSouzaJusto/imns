@@ -56,12 +56,12 @@
  */
 namespace rpo\mvc;
 
+use rpo\mvc\ErrorView;
 use rpo\http\HTTPRequest;
 use rpo\http\HTTPResponse;
 use rpo\http\exception\HTTPException;
 use rpo\http\exception\InternalServerErrorException;
 use rpo\http\exception\BadRequestException;
-use rpo\http\header\fields\Protocol;
 
 /**
  * Controlador principal da aplicação
@@ -94,10 +94,9 @@ final class Application extends \rpo\mvc\ControllerChain {
 	 * mensagens de erro da aplicação
 	 */
 	private function createErrorResponse( HTTPException $e ) {
-		$this->getResponse()->getHeaders()->add( new Protocol( Protocol::HTTP_1_1 , $e->getCode() ) );
-		$this->getResponse()->getBody()->getComposite()->clear();
-		$this->getResponse()->show();
-		echo $e->getMessage();
+		$errorView = new ErrorView( $e );
+		$errorView->configure( $this->getResponse() );
+		$errorView->show();
 	}
 
 	/**
@@ -137,7 +136,7 @@ final class Application extends \rpo\mvc\ControllerChain {
 			}
 
 			if (  !$handled ) {
-				$this->createErrorResponse( new BadRequestException( 'Requisição inválida' ) );
+				$this->createErrorResponse( new BadRequestException( 'Seu navegador enviou uma requisição que esta aplicação não pôde compreender.' ) );
 			}
 		}
 	}
