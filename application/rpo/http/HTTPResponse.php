@@ -58,7 +58,6 @@ namespace rpo\http;
 
 use rpo\http\HTTPHeaderSet;
 use rpo\http\HTTPBody;
-use rpo\gui\composite\Composite;
 
 /**
  * Representação da resposta de uma requisição HTTP
