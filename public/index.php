@@ -1,6 +1,6 @@
 <?php
 /*
- * Carrega as configuraçõeses
+ * Carrega as configurações
  */
 require '../application/config.php';
 
