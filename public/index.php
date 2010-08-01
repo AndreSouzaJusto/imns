@@ -1,6 +1,6 @@
 <?php
 /*
- * Carrega as configurações
+ * Carrega as configuraÃ§Ãµeses
  */
 require '../application/config.php';
 
@@ -11,15 +11,15 @@ use rpo\mvc\Application;
 use rpo\http\HTTPRequest;
 
 /*
- * Cria nossa aplicação e adiciona uma instância Imns
- * A classe Imns é o controlador base da rede social
+ * Cria nossa aplicaÃ§Ã£o e adiciona uma instÃ¢ncia Imns
+ * A classe Imns Ã© o controlador base da rede social
  */
 $application = new Application();
 $application->attach( new com\base\Imns() );
 
 /*
  * Executa tudo!
- * Para isso primeiro é criada uma nova instância da classe HTTPRequest que representa a requisição do usuário
- * Esse objeto será passado para cada controlador fazer sua parte com o método handle() (Veja: rpo\mvc\Controller.php)
+ * Para isso primeiro Ã© criada uma nova instÃ¢ncia da classe HTTPRequest que representa a requisiÃ§Ã£o do usuÃ¡rio
+ * Esse objeto serÃ¡ passado para cada controlador fazer sua parte com o mÃ©todo handle() (Veja: rpo\mvc\Controller.php)
  */
 $application->handle( HTTPRequest::getInstance( '/imns/' ) );
