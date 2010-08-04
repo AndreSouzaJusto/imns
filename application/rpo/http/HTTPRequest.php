@@ -60,6 +60,7 @@ use \ReflectionFunction;
 use \ReflectionException;
 use rpo\http\HTTPHeaderSet;
 use rpo\http\HTTPBody;
+use rpo\http\header\fields\Protocol;
 
 /**
  * Representação da requisição do usuário
@@ -78,6 +79,13 @@ final class HTTPRequest extends \rpo\base\Object implements \rpo\http\HTTPIO {
 	private static $instance;
 
 	/**
+	 * Corpo da requisição
+	 * @access	private
+	 * @var		\rpo\http\HTTPBody
+	 */
+	private $body;
+
+	/**
 	 * Lista de cabeçalhos da requisição
 	 * @access	private
 	 * @var		\rpo\http\HTTPHeaderSet
@@ -85,11 +93,16 @@ final class HTTPRequest extends \rpo\base\Object implements \rpo\http\HTTPIO {
 	private $headers;
 
 	/**
-	 * Corpo da requisição
-	 * @access	private
-	 * @var		\rpo\http\HTTPBody
+	 * Protocolo utilizado pela requisição
+	 * @var string
 	 */
-	private $body;
+	private $protocol;
+
+	/**
+	 * Versão do protocolo
+	 * @var float
+	 */
+	private $protocolVersion;
 
 	/**
 	 * URI da requisição do usuário
@@ -103,6 +116,13 @@ final class HTTPRequest extends \rpo\base\Object implements \rpo\http\HTTPIO {
 	 * @param string $base Diretório base da requisição (eq: RewriteBase)
 	 */
 	private function __construct( $base ) {
+		$match = array();
+
+		if ( preg_match( '/(?<protocol>[^\/]+)\/(?<version>[1-9]+(\.[0-9]+))/' , $_SERVER[ 'SERVER_PROTOCOL' ] , $match ) ){
+			$this->protocol = $match[ 'protocol' ];
+			$this->protocolVersion = (float) $match[ 'version' ];
+		}
+
 		$this->uri = preg_replace( sprintf( '/^%s(.*)/' , preg_quote( $base , '/' ) ) , '$1' , $_SERVER[ 'REQUEST_URI' ] );
 	}
 
@@ -145,6 +165,22 @@ final class HTTPRequest extends \rpo\base\Object implements \rpo\http\HTTPIO {
 	 */
 	public function getMethod() {
 		return $_SERVER[ 'REQUEST_METHOD' ];
+	}
+
+	/**
+	 * Recupera o protocolo utilizado pela requisição
+	 * @return string
+	 */
+	public function getProtocol() {
+		return $this->protocol;
+	}
+
+	/**
+	 * Recupera a versão do protocolo
+	 * @return float
+	 */
+	public function getProtocolVersion() {
+		return $this->protocolVersion;
 	}
 
 	/**
