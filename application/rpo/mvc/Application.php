@@ -56,9 +56,7 @@
  */
 namespace rpo\mvc;
 
-use rpo\mvc\ErrorView;
 use rpo\http\HTTPRequest;
-use rpo\http\HTTPResponse;
 use rpo\http\exception\HTTPException;
 use rpo\http\exception\InternalServerErrorException;
 use rpo\http\exception\BadRequestException;
@@ -83,15 +81,12 @@ final class Application extends \rpo\mvc\ControllerChain {
 	public function __construct() {
 		parent::__construct();
 
-		$this->response = HTTPResponse::getInstance();
+		$this->response = \rpo\http\HTTPResponse::getInstance();
 	}
 
 	/**
 	 * Cria a exibição padrão de erro
 	 * @param \rpo\http\exception\HTTPException $e
-	 * @FIXME Nesse momento estamos fazendo a saída (echo $e->getMessage()) diretamente daqui
-	 * Isso deve ser corrigido com a criação de uma ErrorView, reponsável pela exibição de
-	 * mensagens de erro da aplicação
 	 */
 	private function createErrorResponse( HTTPException $e ) {
 		$errorView = new ErrorView( $e );
@@ -115,29 +110,38 @@ final class Application extends \rpo\mvc\ControllerChain {
 		$iterator = $this->getIterator();
 		$handled = false;
 
-		for ( $iterator->rewind() ; $iterator->valid() ; $iterator->next() ) {
-			try {
-				$applicationController = $iterator->current();
+		try {
+			for ( $iterator->rewind() ; $iterator->valid() ; $iterator->next() ) {
+				try {
+					/**
+					 * Controlador de primeiro nível que foi anexado ao objeto Application
+					 * @var \rpo\mvc\ControllerChain
+					 */
+					$applicationController = $iterator->current();
 
-				if ( $applicationController->canHandle( $request ) ) {
-					$applicationController->handle( $request );
+					if ( $applicationController->canHandle( $request ) ) {
+						$applicationController->handle( $request );
 
-					$handled = true;
+						$handled = true;
+					}
+
+					$response = $this->getResponse();
+					$response->getHeaders()->add( new \rpo\http\header\fields\XPoweredBy( 'RPO-0.1' ) );
+					$response->show();
+				} catch ( HTTPException $e ) {
+					$this->createErrorResponse( $e );
+					break;
+				} catch ( Exception $e ) {
+					$this->createErrorResponse( new InternalServerErrorException( $e->getMessage() , $e ) );
+					break;
 				}
-
-				$this->getResponse()->getHeaders()->add( new \rpo\http\header\fields\XPoweredBy( 'RPO-0.1' ) );
-				$this->getResponse()->show();
-			} catch ( HTTPException $e ) {
-				$this->createErrorResponse( $e );
-				break;
-			} catch ( Exception $e ) {
-				$this->createErrorResponse( new InternalServerErrorException( $e->getMessage() , $e ) );
-				break;
 			}
 
 			if (  !$handled ) {
 				$this->createErrorResponse( new BadRequestException( 'Seu navegador enviou uma requisição que esta aplicação não pôde compreender.' ) );
 			}
+		} catch ( Exception $e ){
+			$this->createErrorResponse( new InternalServerErrorException( $e->getMessage() , $e ) );
 		}
 	}
 }
