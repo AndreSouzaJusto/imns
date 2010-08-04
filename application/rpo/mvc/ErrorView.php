@@ -93,11 +93,11 @@ class ErrorView extends \rpo\base\Object implements \rpo\mvc\View {
 
 	/**
 	 * Configura a View
-	 * @param \rpo\http\HTTPResponse $panel
+	 * @param \rpo\http\HTTPResponse $response
 	 */
 	public function configure( HTTPResponse $response ){
 		$this->response = $response;
-		$this->response->getHeaders()->add( new Protocol( Protocol::HTTP_1_1 , $this->exception->getCode() ) );
+		$this->response->getHeaders()->add( new Protocol( Protocol::HTTP , Protocol::HTTP_1_1 , $this->exception->getCode() ) );
 
 		$page = new HTMLPage();
 		$page->setTitle( new String( 'Ocorreu um erro.' ) );
