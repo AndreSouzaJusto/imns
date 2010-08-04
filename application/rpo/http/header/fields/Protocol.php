@@ -65,23 +65,37 @@ namespace rpo\http\header\fields;
  */
 final class Protocol extends \rpo\http\header\AbstractHTTPPriorityHeaderField {
 	/**
-	 * HTTP Versão 1.1
+	 * Protocolo HTTP
 	 */
-	const HTTP_1_1 = '1.1';
+	const HTTP = 'HTTP';
 
 	/**
 	 * HTTP Versão 1.0
 	 */
-	const HTTP_1_0 = '1.0';
+	const HTTP_1_0 = 1.0;
 
 	/**
-	 * Constroi o objeto que representa o cabeçalho HTTP
-	 * @param string $protocol Versão do protocolo HTTP
-	 * @param string $message Mensagem de status
-	 * @param integer $status Código de status
+	 * HTTP Versão 1.1
 	 */
-	public function __construct( $protocol = '1.1' , $status = 200 , $message = null ) {
-		parent::__construct( $message , $protocol , $status );
+	const HTTP_1_1 = 1.1;
+
+	/**
+	 * Protocolo da requisição ou resposta
+	 * @var string
+	 */
+	private $protocol;
+
+	/**
+	 * Constroi o objeto que representa o cabeçalho de protocolo
+	 * @param string $protocol Protocolo utilizado
+	 * @param float $version Versão do protocolo
+	 * @param integer $status Código de status
+	 * @param string $message Mensagem de status
+	 */
+	public function __construct( $protocol , $version = 1.1 , $status = 200 , $message = null ) {
+		parent::__construct( $message , $version , $status );
+
+		$this->protocol = $protocol;
 	}
 
 	/**
@@ -89,7 +103,7 @@ final class Protocol extends \rpo\http\header\AbstractHTTPPriorityHeaderField {
 	 * @return string
 	 */
 	public function __toString() {
-		return sprintf( 'HTTP/%s %d %s' , $this->getValue() , $this->getStatusCode() , $this->getName() );
+		return sprintf( '%s/%s %d %s' , $this->protocol , $this->getValue() , $this->getStatusCode() , $this->getName() );
 	}
 
 	/**
