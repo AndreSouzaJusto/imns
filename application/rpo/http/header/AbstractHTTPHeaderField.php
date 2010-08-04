@@ -146,7 +146,7 @@ abstract class AbstractHTTPHeaderField extends \rpo\base\Object implements \rpo\
 	 * @see Object::hashCode()
 	 */
 	public function hashCode() {
-		return new \rpo\base\String( md5( get_class( $this ) ) );
+		return new \rpo\base\String( md5( $this->getClass()->getName() ) );
 	}
 
 	/**
