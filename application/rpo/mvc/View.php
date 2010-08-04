@@ -67,9 +67,9 @@ use rpo\http\HTTPResponse;
 interface View extends \rpo\base\BaseObject {
 	/**
 	 * Configura a View utilizando o componente Root
-	 * @param \rpo\http\HTTPResponse $panel
+	 * @param \rpo\http\HTTPResponse $response
 	 */
-	public function configure( HTTPResponse $panel );
+	public function configure( HTTPResponse $response );
 
 	/**
 	 * Exibe a View
