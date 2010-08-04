@@ -81,8 +81,8 @@ abstract class AbstractCollection extends \rpo\base\Object implements \rpo\util\
 	protected $storage;
 
 	/**
-	 * @access	private
-	 * @var		\ReflectionClass
+	 * Iterator que será utilizado pelo método getIterator
+	 * @var \ReflectionClass
 	 */
 	private $iterator;
 
@@ -197,7 +197,7 @@ abstract class AbstractCollection extends \rpo\base\Object implements \rpo\util\
 	 * @see \IteratorAggregate::getIterator()
 	 */
 	public function getIterator() {
-		return $this->iterator->newInstance( $this->storage );
+		return $this->iterator->newInstance( clone $this->storage );
 	}
 
 	/**
@@ -264,11 +264,13 @@ abstract class AbstractCollection extends \rpo\base\Object implements \rpo\util\
 	 * @throws \InvalidArgumentException Se a classe especificada não implementar Iterator
 	 */
 	public function setIteratorClass( $class ) {
-		$this->iterator = new ReflectionClass( $class );
+		$reflection = new ReflectionClass( $class );
 
-		if (  !$this->iterator->implementsInterface( '\Iterator' ) ) {
+		if (  !$reflection->implementsInterface( '\Iterator' ) ) {
 			throw new InvalidArgumentException( 'A classe especificada precisa implementar a interface Iterator' );
 		}
+
+		$this->iterator = $reflection;
 	}
 
 	/**
