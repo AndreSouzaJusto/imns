@@ -58,6 +58,7 @@ namespace rpo\http;
 
 use rpo\http\HTTPHeaderSet;
 use rpo\http\HTTPBody;
+use rpo\http\header\fields\ContentMD5;
 
 /**
  * Representação da resposta de uma requisição HTTP
@@ -90,11 +91,13 @@ final class HTTPResponse extends \rpo\base\Object implements \rpo\http\HTTPIO {
 	private $headers;
 
 	/**
-	 * Constroi o objeto de resposta
+	 * Constroi o objeto de resposta e inicia o buffer de saída
 	 */
 	private function __construct() {
 		$this->body = new HTTPBody();
 		$this->headers = new HTTPHeaderSet();
+
+		ob_start();
 	}
 
 	/**
@@ -130,10 +133,50 @@ final class HTTPResponse extends \rpo\base\Object implements \rpo\http\HTTPIO {
 	 * Exibe a resposta
 	 */
 	public function show() {
+		if ( ob_get_length() ){
+			/**
+			 * Limpando o buffer, caso alguma coisa tenha saído antes da hora
+			 */
+			ob_end_clean();
+		}
+
+		/**
+		 * Montando o corpo da resposta
+		 */
+		$this->body->getComposite()->draw();
+
+		/**
+		 * Capturamos o conteúdo do corpo da resposta e calculamos o MD5.
+		 * Esse hash, codificado com base64 será utilizado pelo client para ter certeza
+		 * que o conteúdo recebido não foi modificado no caminho.
+		 */
+		$buffer = ob_get_contents();
+		$contentMD5 = new ContentMD5( base64_encode( md5( $buffer , true ) ) );
+
+		/**
+		 * Verificamos se já existe um Content-MD5 na lista de cabeçalhos.
+		 * Se houver, devido a uma outra saída, removemos-o para dar lugar ao novo hash
+		 */
+		if ( $this->headers->contains( $contentMD5 ) ){
+			$this->headers->remove( $contentMD5 );
+		}
+
+		/**
+		 * Adicionamos o campo de cabeçalho Content-MD5 com o hash do conteúdo servido
+		 */
+		$this->headers->add( $contentMD5 );
+		$this->headers->update();
+
+		/**
+		 * Enviando os cabeçalhos de resposta HTTP
+		 */
 		foreach ( $this->headers as $header ) {
 			header( (string) $header , true , $header->getStatusCode() );
 		}
 
-		$this->body->getComposite()->draw();
+		/**
+		 * Liberamos o buffer com a resposta
+		 */
+		ob_end_flush();
 	}
 }
