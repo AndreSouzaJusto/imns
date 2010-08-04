@@ -68,7 +68,7 @@ class Upgrade extends \rpo\http\header\AbstractHTTPHeaderField {
 	 * Constroi o objeto que representa o cabeçalho HTTP Upgrade
 	 * @param string $value Valor do campo de cabeçalho
 	 */
-	public function __construct( $value ) {
-		parent::__construct( 'Upgrade' , $value );
+	public function __construct( $protocol , $version ) {
+		parent::__construct( 'Upgrade' , sprintf( '%s/%s' , $protocol , $version ) , 101 );
 	}
 }
