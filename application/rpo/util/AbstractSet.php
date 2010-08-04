@@ -75,7 +75,7 @@ abstract class AbstractSet extends \rpo\util\AbstractCollection implements \rpo\
 	 */
 	protected function accept( BaseObject $object ) {
 		if ( $this->contains( $object ) ) {
-			throw new LogicException( 'O Set já contém o objeto especificado.' );
+			throw new \LogicException( sprintf( 'O Set %s já contém um objeto %s.' , $this->getClass()->getName() , $object->getClass()->getName() ) );
 		}
 
 		return true;
