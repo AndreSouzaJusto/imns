@@ -65,10 +65,60 @@ namespace rpo\http\header\fields;
  */
 final class Host extends \rpo\http\header\AbstractHTTPHeaderField {
 	/**
+	 * Porta do servidor
+	 * @var integer
+	 */
+	private $port;
+
+	/**
+	 * Servidor
+	 * @var string
+	 */
+	private $host;
+
+	/**
 	 * Constroi o objeto que representa o cabeçalho HTTP Host
 	 * @param string $value Valor do campo de cabeçalho
 	 */
 	public function __construct( $value ) {
 		parent::__construct( 'Host' , $value );
+	}
+
+	/**
+	 * Verifica se um valor é aceitável pelo o campo
+	 * @param string $value
+	 * @return boolean
+	 */
+	public function accept( $value ){
+		$mtc = array();
+
+		if ( preg_match( '/^(?<host>[^:]+)(:(?<port>\d+))?/' , $value , $mtc ) ){
+			if ( !isset( $mtc[ 'port' ] ) ){
+				$mtc[ 'port' ] = 80;
+			}
+
+			$this->host = $mtc[ 'host' ];
+			$this->port = (int) $mtc[ 'port' ];
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Recupera o servidor
+	 * @return string
+	 */
+	public function getHost(){
+		return $this->host;
+	}
+
+	/**
+	 * Recupera a porta utilizada
+	 * @return integer
+	 */
+	public function getPort(){
+		return $this->port;
 	}
 }
