@@ -80,6 +80,6 @@ final class ContentMD5 extends \rpo\http\header\AbstractHTTPHeaderField {
 	 * @param string $value
 	 */
 	public function accept( $value ) {
-		return (bool) preg_match( '//^[a-zA-Z0-9\+\=]+$//' , $value );
+		return (bool) preg_match( '/^[a-zA-Z0-9\+\=\/]+$/' , $value );
 	}
 }
