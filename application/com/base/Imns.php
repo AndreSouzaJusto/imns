@@ -60,6 +60,7 @@ use rpo\mvc\Controller;
 use rpo\mvc\ControllerChain;
 use rpo\http\HTTPRequest;
 use rpo\http\HTTPRequestMethod;
+use rpo\http\header\fields\Protocol;
 
 /**
  * Controlador base da rede social
@@ -107,77 +108,100 @@ final class Imns extends \rpo\mvc\ControllerChain {
 		$method = $request->getMethod();
 		$headers = $this->getResponse()->getHeaders();
 
-		if ( ( $method == HTTPRequestMethod::GET ) || ( $method == HTTPRequestMethod::POST ) ) {
-
-			foreach ( $request->getHeaders() as $header ) {
-
-				switch ( $header->getClass()->getName() ) {
-
-					case 'rpo\http\header\fields\Accept' :
-						$acceptable = false;
-
-						foreach ( $header as $priority ) {
-							if ( ( $priority == '*' ) || in_array( $priority , $this->contentTypes ) ) {
-								$acceptable = true;
-								$contentType = $priority == '*' ? array_shift( $this->acceptable ) : $priority;
-
-								$headers->add( new \rpo\http\header\fields\ContentType( $contentType ) );
-
-								break;
-							}
-						}
-
-						if (  !$acceptable ) {
-							throw new \rpo\http\exception\NotAcceptableException( 'Not Acceptable' );
-						}
-						break;
-
-					case 'rpo\http\header\fields\AcceptLanguage' :
-						$acceptable = false;
-
-						foreach ( $header as $priority ) {
-							if ( ( $priority == '*' ) || in_array( $priority , $this->languages ) ) {
-								$acceptable = true;
-								$contentLanguage = ( $priority == '*' ) ? array_shift( $this->contentLanguages ) : $priority;
-								$headers->add( new \rpo\http\header\fields\ContentLanguage( $contentLanguage ) );
-							}
-						}
-
-						if (  !$acceptable ) {
-							throw new \rpo\http\exception\NotAcceptableException( 'Not Acceptable' );
-						}
-						break;
-
-					case 'rpo\http\header\fields\Connection' :
-						$value = $header->getValue();
-
-						if ( ( $value == 'keep-alive' ) || ( $value == 'close' ) ) {
-							$headers->add( new \rpo\http\header\fields\Connection( $value ) );
-						} else {
-							throw new \rpo\http\exception\BadRequestException( 'Bad Request' );
-						}
-						break;
-
-					case 'rpo\http\header\fields\KeepAlive' :
-						$keepAlive = $header->getValue();
-
-						if ( (int) $keepAlive == $keepAlive ) {
-							$headers->add( new \rpo\http\header\fields\KeepAlive( (int) $keepAlive ) );
-						} else {
-							throw new \rpo\http\exception\BadRequestException( 'Bad Request' );
-						}
-						break;
-
-					case 'rpo\http\header\fields\AcceptCharset' :
-						\rpo\base\String::setDefaultEncoding( $header->getValue() );
-						break;
-				}
-
+		/**
+		 * Verificação do protocolo e versão. Apenas servimos requisições HTTP
+		 */
+		if ( $request->getProtocol() == Protocol::HTTP ) {
+			/**
+			 * Verificamos a versão do protocolo, se for HTTP/1.0, enviaremos o campo Upgrade informando
+			 * que estamos entregando o conteúdo utilizando HTTP/1.1
+			 * Caso a versão HTTP seja diferente de HTTP/1.0 e HTTP/1.1, adicionamos o cabeçalho HTTP-Version
+			 * informando o protocolo HTTP/1.1 e disparamos a exceção HttpVersionNotSupportedException.
+			 */
+			if ( $request->getProtocolVersion() == Protocol::HTTP_1_0 ){
+				$headers->add( new \rpo\http\header\fields\Upgrade( Protocol::HTTP , Protocol::HTTP_1_1 ) );
+			} elseif ( $request->getProtocolVersion() != Protocol::HTTP_1_1 ){
+				$headers->add( new \rpo\http\header\fields\HTTPVersion( Protocol::HTTP , Protocol::HTTP_1_1 ) );
+				throw new \rpo\http\exception\HttpVersionNotSupportedException( 'Protocolo não suportado.' );
 			}
 
+			if ( ( $method == HTTPRequestMethod::GET ) || ( $method == HTTPRequestMethod::POST ) ) {
+
+				foreach ( $request->getHeaders() as $header ) {
+					switch ( $header->getClass()->getName() ) {
+						case 'rpo\http\header\fields\Accept' :
+							$acceptable = false;
+
+							foreach ( $header as $priority ) {
+								if ( ( $priority == '*' ) || in_array( $priority , $this->contentTypes ) ) {
+									$acceptable = true;
+									$contentType = $priority == '*' ? array_shift( $this->acceptable ) : $priority;
+
+									$headers->add( new \rpo\http\header\fields\ContentType( $contentType ) );
+
+									break;
+								}
+							}
+
+							if (  !$acceptable ) {
+								throw new \rpo\http\exception\NotAcceptableException( 'Not Acceptable' );
+							}
+							break;
+
+						case 'rpo\http\header\fields\AcceptLanguage' :
+							$acceptable = false;
+
+							foreach ( $header as $priority ) {
+								if ( ( $priority == '*' ) || in_array( $priority , $this->languages ) ) {
+									$acceptable = true;
+									$contentLanguage = ( $priority == '*' ) ? array_shift( $this->contentLanguages ) : $priority;
+									$headers->add( new \rpo\http\header\fields\ContentLanguage( $contentLanguage ) );
+								}
+							}
+
+							if (  !$acceptable ) {
+								throw new \rpo\http\exception\NotAcceptableException( 'A aplicação não suporta o idioma requerido.' );
+							}
+							break;
+
+						case 'rpo\http\header\fields\Connection' :
+							$value = $header->getValue();
+
+							if ( ( $value == 'keep-alive' ) || ( $value == 'close' ) ) {
+								$headers->add( new \rpo\http\header\fields\Connection( $value ) );
+							} else {
+								throw new \rpo\http\exception\BadRequestException( 'Bad Request' );
+							}
+							break;
+
+						case 'rpo\http\header\fields\KeepAlive' :
+							$keepAlive = $header->getValue();
+
+							if ( (int) $keepAlive == $keepAlive ) {
+								$headers->add( new \rpo\http\header\fields\KeepAlive( (int) $keepAlive ) );
+							} else {
+								throw new \rpo\http\exception\BadRequestException( 'Bad Request' );
+							}
+							break;
+
+						case 'rpo\http\header\fields\AcceptCharset' :
+							\rpo\base\String::setDefaultEncoding( $header->getValue() );
+							break;
+
+						case 'rpo\http\header\fields\Host' :
+							if ( $header->getPort() != 80 ){
+								throw new \rpo\http\exception\BadRequestException( 'A porta utilizada pela requisição é inválida.' );
+							}
+					}
+
+				}
+
+			} else {
+				$headers->add( new \rpo\http\header\fields\Allow( 'GET, POST' ) );
+				throw new \rpo\http\exception\MethodNotAllowedException( 'Método não permitido' );
+			}
 		} else {
-			$headers->add( new \rpo\http\header\fields\Allow( 'GET, POST' ) );
-			throw new \rpo\http\exception\MethodNotAllowedException( 'Método não permitido' );
+			throw new \rpo\http\exception\BadRequestException( 'Protocolo não suportado.' );
 		}
 
 		return parent::canHandle( $request );
