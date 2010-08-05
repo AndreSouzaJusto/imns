@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -46,13 +47,14 @@
  * DE DADOS OU DADOS SENDO GERADOS DE FORMA IMPRECISA, PERDAS SOFRIDAS POR VOCÊ OU TERCEIROS OU A IMPOSSIBILIDADE DO
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
- *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	util
+ * 
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Classes e interfaces utilitárias
+ * @package		rpo.util
  */
 namespace rpo\util;
 
@@ -61,23 +63,23 @@ use rpo\base\BaseObject;
 /**
  * Interface para definição de uma coleção que permite acesso à seus elementos
  * como se fosse uma matriz
- * @package		rpo
- * @subpackage	util
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @interface	Lists
+ * @extends		Collection
+ * @extends		ArrayAccess
  */
 interface Lists extends \rpo\util\Collection, \ArrayAccess {
 	/**
 	 * Recupera o índice de um elemento dentro da lista
-	 * @param \rpo\base\BaseObject $object
+	 * @param $object BaseObject
 	 * @return integer
 	 */
 	public function indexOf( BaseObject $object );
 
 	/**
 	 * Extrai uma fatia da lista
-	 * @param integer $offset Posição inicial de onde será extraída a fatia
-	 * @param integer $length Tamanho da fatia
-	 * @return \rpo\util\Lists
+	 * @param $offset integer Posição inicial de onde será extraída a fatia
+	 * @param $length integer Tamanho da fatia
+	 * @return Lists
 	 */
 	public function slice( $offset , $length = null );
 }

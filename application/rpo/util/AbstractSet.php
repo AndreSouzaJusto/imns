@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -46,36 +47,37 @@
  * DE DADOS OU DADOS SENDO GERADOS DE FORMA IMPRECISA, PERDAS SOFRIDAS POR VOCÊ OU TERCEIROS OU A IMPOSSIBILIDADE DO
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
- *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	util
+ * 
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Classes e interfaces utilitárias
+ * @package		rpo.util
  */
 namespace rpo\util;
 
+use LogicException;
 use rpo\base\BaseObject;
 
 /**
  * Um Set, por definição, não permite elementos duplicados. Essa classe
  * serve como base para a implementação da interface Set.
- * @abstract
- * @package		rpo
- * @subpackage	util
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @class		AbstractSet
+ * @extends		AbstractCollection
+ * @implements	Set
  */
 abstract class AbstractSet extends \rpo\util\AbstractCollection implements \rpo\util\Set {
 	/**
 	 * Verifica se o objeto pode ser aceito pelo Set
-	 * @param rpo\base\BaseObject $object
+	 * @param $object BaseObject
 	 * @return boolean
-	 * @throws \LogicException Se o objeto já estiver contido no Set
+	 * @throws LogicException Se o objeto já estiver contido no Set
 	 */
 	protected function accept( BaseObject $object ) {
 		if ( $this->contains( $object ) ) {
-			throw new \LogicException( sprintf( 'O Set %s já contém um objeto %s.' , $this->getClass()->getName() , $object->getClass()->getName() ) );
+			throw new LogicException( sprintf( 'O Set %s já contém um objeto %s.' , $this->getClass()->getName() , $object->getClass()->getName() ) );
 		}
 
 		return true;

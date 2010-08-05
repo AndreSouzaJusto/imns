@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -46,30 +47,31 @@
  * DE DADOS OU DADOS SENDO GERADOS DE FORMA IMPRECISA, PERDAS SOFRIDAS POR VOCÊ OU TERCEIROS OU A IMPOSSIBILIDADE DO
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
- *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	util
+ * 
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Classes e interfaces utilitárias
+ * @package		rpo.util
  */
 namespace rpo\util;
 
+use UnexpectedValueException;
 use rpo\base\BaseObject;
 
 /**
  * Implementação base de uma coleção que permite acesso à seus elementos como se fosse
  * uma matriz
- * @abstract
- * @package		rpo
- * @subpackage	util
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @class		AbstractList
+ * @extends		AbstractCollection
+ * @implements	Lists
  */
 abstract class AbstractList extends \rpo\util\AbstractCollection implements \rpo\util\Lists {
 	/**
 	 * Recupera o índice de um elemento dentro da lista
-	 * @param \rpo\base\BaseObject $object
+	 * @param $object BaseObject
 	 * @return integer Retorna -1 se o objeto não for encontrado na lista
 	 */
 	public function indexOf( BaseObject $object ) {
@@ -84,7 +86,7 @@ abstract class AbstractList extends \rpo\util\AbstractCollection implements \rpo
 
 	/**
 	 * Verifica se um índice existe na lista
-	 * @param integer $offset
+	 * @param $offset integer
 	 * @return boolean
 	 */
 	public function offsetExists( $offset ) {
@@ -93,8 +95,8 @@ abstract class AbstractList extends \rpo\util\AbstractCollection implements \rpo
 
 	/**
 	 * Recupera um objeto da lista utilizando seu índice
-	 * @param integer $offset
-	 * @return \rpo\base\BaseObject
+	 * @param $offset integer
+	 * @return BaseObject
 	 */
 	public function offsetGet( $offset ) {
 		return $this->storage->offsetGet( $offset );
@@ -102,21 +104,21 @@ abstract class AbstractList extends \rpo\util\AbstractCollection implements \rpo
 
 	/**
 	 * Define um novo objeto em uma posição específica da lista
-	 * @param integer $offset A posição onde será colocado o objeto
-	 * @param \rpo\base\BaseObject $value
-	 * @throws \UnexpectedValueException Se o valor definido não for um objeto
+	 * @param $offset integer A posição onde será colocado o objeto
+	 * @param $value BaseObject
+	 * @throws UnexpectedValueException Se o valor definido não for um objeto
 	 */
 	public function offsetSet( $offset , $value ) {
 		if ( $value instanceof \rpo\base\BaseObject ) {
 			$this->storage->offsetSet( $offset , $value );
 		} else {
-			throw new \UnexpectedValueException( 'Apenas objetos são aceitos pela lista' );
+			throw new UnexpectedValueException( 'Apenas objetos são aceitos pela lista' );
 		}
 	}
 
 	/**
 	 * Remove um objeto de uma posição específica da lista
-	 * @param integer $offset
+	 * @param $offset integer
 	 */
 	public function offsetUnset( $offset ) {
 		$this->storage->offsetUnset( $offset );
@@ -124,9 +126,9 @@ abstract class AbstractList extends \rpo\util\AbstractCollection implements \rpo
 
 	/**
 	 * Extrai uma fatia da lista
-	 * @param integer $offset Posição inicial de onde será extraída a fatia
-	 * @param integer $length Tamanho da fatia
-	 * @return \rpo\util\Lists
+	 * @param $offset integer Posição inicial de onde será extraída a fatia
+	 * @param $length integer Tamanho da fatia
+	 * @return Lists
 	 */
 	public function slice( $offset , $length = null ) {
 		$total = $this->count();

@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -46,13 +47,14 @@
  * DE DADOS OU DADOS SENDO GERADOS DE FORMA IMPRECISA, PERDAS SOFRIDAS POR VOCÊ OU TERCEIROS OU A IMPOSSIBILIDADE DO
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
- *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	util
+ * 
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Classes e interfaces utilitárias
+ * @package		rpo.util
  */
 namespace rpo\util;
 
@@ -67,22 +69,20 @@ use rpo\util\Collection;
 
 /**
  * Base para implementação da interface Collection.
- * @abstract
- * @package		rpo
- * @subpackage	util
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @class		AbstractCollection
+ * @extends		Object
+ * @implements	Collection
  */
 abstract class AbstractCollection extends \rpo\base\Object implements \rpo\util\Collection {
 	/**
 	 * Lista de objetos da coleção
-	 * @access	protected
-	 * @var		\ArrayObject
+	 * @var		ArrayObject
 	 */
 	protected $storage;
 
 	/**
 	 * Iterator que será utilizado pelo método getIterator
-	 * @var \ReflectionClass
+	 * @var ReflectionClass
 	 */
 	private $iterator;
 
@@ -96,16 +96,16 @@ abstract class AbstractCollection extends \rpo\base\Object implements \rpo\util\
 
 	/**
 	 * Verifica se um determinado objeto pode ser aceito pela Collection
-	 * @abstract
-	 * @param \rpo\base\BaseObject $object
+	 * @attention	As classes que derivarem de AbstractCollection precisam implementar o método accept()
+	 * @param $object BaseObject
 	 * @return boolean
 	 */
 	abstract protected function accept( BaseObject $object );
 
 	/**
 	 * Adiciona um novo objeto à coleção
-	 * @param \rpo\base\BaseObject $object
-	 * @throws \InvalidArgumentException Se o objeto não for aceito pela Collection
+	 * @param $object BaseObject
+	 * @throws InvalidArgumentException Se o objeto não for aceito pela Collection
 	 */
 	public function add( BaseObject $object ) {
 		if ( $this->accept( $object ) ) {
@@ -117,7 +117,7 @@ abstract class AbstractCollection extends \rpo\base\Object implements \rpo\util\
 
 	/**
 	 * Adiciona todos os objetos de uma outra coleção à esta coleção
-	 * @param \rpo\util\Collection $collection
+	 * @param $collection Collection
 	 */
 	public function addAll( Collection $collection ) {
 		foreach ( $collection as $element ) {
@@ -127,7 +127,7 @@ abstract class AbstractCollection extends \rpo\base\Object implements \rpo\util\
 
 	/**
 	 * Limpa a coleção
-	 * @see \rpo\util\Collection::isEmpty()
+	 * @see Collection::isEmpty()
 	 */
 	public function clear() {
 		$this->storage = new ArrayObject();
@@ -135,7 +135,7 @@ abstract class AbstractCollection extends \rpo\base\Object implements \rpo\util\
 
 	/**
 	 * Verifica se um determinado objeto está contido na coleção
-	 * @param \rpo\base\BaseObject $object
+	 * @param $object BaseObject
 	 * @return boolean
 	 */
 	public function contains( BaseObject $object ) {
@@ -150,7 +150,7 @@ abstract class AbstractCollection extends \rpo\base\Object implements \rpo\util\
 
 	/**
 	 * Verifica se a coleção contém todos os objetos de uma outra coleção
-	 * @param \rpo\util\Collection $collection
+	 * @param $collection Collection
 	 * @return boolean
 	 */
 	public function containsAll( Collection $collection ) {
@@ -166,7 +166,7 @@ abstract class AbstractCollection extends \rpo\base\Object implements \rpo\util\
 	/**
 	 * Recupera o total de elementos na coleção
 	 * @return integer
-	 * @see \Countable::count()
+	 * @see Countable::count()
 	 */
 	public function count() {
 		return $this->storage->count();
@@ -174,8 +174,8 @@ abstract class AbstractCollection extends \rpo\base\Object implements \rpo\util\
 
 	/**
 	 * Substitui todos os elementos de uma coleção pelos contidos na matriz
-	 * @param array $items Lista de itens
-	 * @return \rpo\util\AbstractCollection Retorna a própria instância do objeto
+	 * @param $items array Lista de itens
+	 * @return AbstractCollection Retorna a própria instância do objeto
 	 */
 	public function exchangeArray( array $items ) {
 		$this->removeAll();
@@ -193,8 +193,8 @@ abstract class AbstractCollection extends \rpo\base\Object implements \rpo\util\
 
 	/**
 	 * Recupera um objeto Iterator para os elementos da Collection
-	 * @return \Iterator
-	 * @see \IteratorAggregate::getIterator()
+	 * @return Iterator
+	 * @see IteratorAggregate::getIterator()
 	 */
 	public function getIterator() {
 		return $this->iterator->newInstance( clone $this->storage );
@@ -204,7 +204,7 @@ abstract class AbstractCollection extends \rpo\base\Object implements \rpo\util\
 	 * Recupera a classe que será utilizada para recuperar o Iterator de elementos
 	 * da coleção
 	 * @return string
-	 * @see \IteratorAggregate::getIterator()
+	 * @see IteratorAggregate::getIterator()
 	 */
 	public function getIteratorClass() {
 		return $this->iterator->getName();
@@ -213,7 +213,7 @@ abstract class AbstractCollection extends \rpo\base\Object implements \rpo\util\
 	/**
 	 * Verifica se a coleção está vazia
 	 * @return boolean
-	 * @see \rpo\util\Collection::clear()
+	 * @see Collection::clear()
 	 */
 	public function isEmpty() {
 		return $this->storage->count() == 0;
@@ -221,7 +221,7 @@ abstract class AbstractCollection extends \rpo\base\Object implements \rpo\util\
 
 	/**
 	 * Remove um elemento da coleção
-	 * @param \rpo\base\BaseObject $object
+	 * @param $object BaseObject
 	 */
 	public function remove( BaseObject $object ) {
 		foreach ( $this as $offset => $element ) {
@@ -233,7 +233,7 @@ abstract class AbstractCollection extends \rpo\base\Object implements \rpo\util\
 
 	/**
 	 * Remove todos os elementos da coleção que estão contidos em outra coleção
-	 * @param \rpo\util\Collection $collection
+	 * @param $collection Collection
 	 */
 	public function removeAll( Collection $collection ) {
 		foreach ( $collection as $object ) {
@@ -247,7 +247,7 @@ abstract class AbstractCollection extends \rpo\base\Object implements \rpo\util\
 
 	/**
 	 * Mantém na coleção apenas os objetos contidos em outra coleção
-	 * @param \rpo\util\Collection $collection
+	 * @param $collection Collection
 	 */
 	public function retainAll( Collection $collection ) {
 		foreach ( $this as $offset => $object ) {
@@ -259,9 +259,9 @@ abstract class AbstractCollection extends \rpo\base\Object implements \rpo\util\
 
 	/**
 	 * Define a classe que será utilizada para retornar o objeto Iterator
-	 * @param string $class Nome da classe que implementa a interface Iterator
-	 * @see \rpo\util\Collection::getIteratorClass()
-	 * @throws \InvalidArgumentException Se a classe especificada não implementar Iterator
+	 * @param $class string Nome da classe que implementa a interface Iterator
+	 * @see Collection::getIteratorClass()
+	 * @throws InvalidArgumentException Se a classe especificada não implementar Iterator
 	 */
 	public function setIteratorClass( $class ) {
 		$reflection = new ReflectionClass( $class );
