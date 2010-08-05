@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -47,23 +48,23 @@
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
  *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	http\header\fields
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Campos de cabeçalho do protocolo HTTP
+ * @package		rpo.http.header.fields
  */
 namespace rpo\http\header\fields;
 
 /**
- * Implementação do campo HTTP que indica o protocolo e sua versão
- * @final
- * @package		rpo
- * @subpackage	http\header\fields
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @brief		HTTP Protocol.
+ * @details		Implementação do campo HTTP que indica o protocolo e sua versão.
+ * @class		Protocol
+ * @extends		AbstractHTTPHeaderField
  */
-final class Protocol extends \rpo\http\header\AbstractHTTPPriorityHeaderField {
+final class Protocol extends \rpo\http\header\AbstractHTTPHeaderField {
 	/**
 	 * Protocolo HTTP
 	 */
@@ -87,10 +88,10 @@ final class Protocol extends \rpo\http\header\AbstractHTTPPriorityHeaderField {
 
 	/**
 	 * Constroi o objeto que representa o cabeçalho de protocolo
-	 * @param string $protocol Protocolo utilizado
-	 * @param float $version Versão do protocolo
-	 * @param integer $status Código de status
-	 * @param string $message Mensagem de status
+	 * @param $protocol string Protocolo utilizado
+	 * @param $version float Versão do protocolo
+	 * @param $status integer Código de status
+	 * @param $message string Mensagem de status
 	 */
 	public function __construct( $protocol , $version = 1.1 , $status = 200 , $message = null ) {
 		parent::__construct( $message , $version , $status );
@@ -108,8 +109,8 @@ final class Protocol extends \rpo\http\header\AbstractHTTPPriorityHeaderField {
 
 	/**
 	 * Valida o valor de um campo de cabeçalho antes de aceitar seu valor
+	 * @param $value string
 	 * @return boolean
-	 * @param string $value
 	 */
 	protected function accept( $value ) {
 		return ( $value == self::HTTP_1_0 ) || ( $value == self::HTTP_1_1 );

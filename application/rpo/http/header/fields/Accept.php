@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -47,28 +48,28 @@
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
  *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	http\header\fields
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Campos de cabeçalho do protocolo HTTP
+ * @package		rpo.http.header.fields
  */
 namespace rpo\http\header\fields;
 
 /**
- * Implementação do campo de requisição Accept que é utilizado para especificar alguns tipos de media que
- * são aceitáveis como resposta. O campo Accept pode ser utilizado para indicar que  a requisição é
- * especificamente limitada à um pequeno limite de tipos.
- * @final
- * @package		rpo
- * @subpackage	http\header\fields
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @brief		HTTP Accept
+ * @details		Implementação do campo de requisição Accept que é utilizado para especificar alguns tipos
+ * de media que são aceitáveis como resposta. O campo Accept pode ser utilizado para indicar que  a requisição
+ * é especificamente limitada à um pequeno limite de tipos.
+ * @class		Accept
+ * @extends		AbstractHTTPPriorityHeaderField
  */
 final class Accept extends \rpo\http\header\AbstractHTTPPriorityHeaderField {
 	/**
 	 * Constroi o objeto que representa o cabeçalho HTTP Accept
-	 * @param string $value Valor do campo de cabeçalho
+	 * @param $value string Valor do campo de cabeçalho
 	 */
 	public function __construct( $value ) {
 		parent::__construct( 'Accept' , $value );
@@ -76,8 +77,8 @@ final class Accept extends \rpo\http\header\AbstractHTTPPriorityHeaderField {
 
 	/**
 	 * Valida o valor de um campo de cabeçalho antes de aceitar seu valor
+	 * @param $value string
 	 * @return boolean
-	 * @param string $value
 	 */
 	public function accept( $value ) {
 		return (bool) preg_match( '/^[a-z0-9\/,\+;\=\*\.]+$/' , $value );

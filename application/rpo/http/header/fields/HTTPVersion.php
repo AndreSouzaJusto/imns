@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -47,27 +48,27 @@
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
  *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	http\header\fields
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Campos de cabeçalho do protocolo HTTP
+ * @package		rpo.http.header.fields
  */
 namespace rpo\http\header\fields;
 
 /**
- * Implementação do campo HTTP-Version que especifica o protocolo HTTP e versão
- * @final
- * @package		rpo
- * @subpackage	http\header\fields
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @brief		HTTP HTTP-Version.
+ * @details		Implementação do campo HTTP-Version que especifica o protocolo HTTP e versão.
+ * @class		HTTPVersion
+ * @extends		AbstractHTTPHeaderField
  */
 final class HTTPVersion extends \rpo\http\header\AbstractHTTPHeaderField {
 	/**
 	 * Constroi o objeto que representa o cabeçalho HTTP Host
-	 * @param string $protocol Protocolo utilizado
-	 * @param float $version Versão do protocolo
+	 * @param $protocol string Protocolo utilizado
+	 * @param $version float Versão do protocolo
 	 */
 	public function __construct( $protocol , $version ) {
 		parent::__construct( 'HTTP-Version' , sprintf( '%s/%s' , $protocol , $version ) );
@@ -75,7 +76,7 @@ final class HTTPVersion extends \rpo\http\header\AbstractHTTPHeaderField {
 
 	/**
 	 * Verifica se um valor é aceitável pelo o campo
-	 * @param string $value
+	 * @param $value string
 	 * @return boolean
 	 */
 	public function accept( $value ){

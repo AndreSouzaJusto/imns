@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -10,7 +11,7 @@
  * 2. O direito de estudar como o programa funciona e adptá-lo para suas necessidades.
  * 3. O direito de redistribuir cópias, permitindo assim que você ajude outras pessoas.
  * 4. O direito de aperfeiçoar o programa, e distribuir seus aperfeiçoamentos para o público,
- *    beneficiando assim toda a comunidade.
+ * beneficiando assim toda a comunidade.
  *
  * Você terá os direitos acima especificados contanto que Você cumpra com os requisitos expressos
  * nesta Licença.
@@ -47,26 +48,26 @@
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
  *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	http\header\fields
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Campos de cabeçalho do protocolo HTTP
+ * @package		rpo.http.header.fields
  */
 namespace rpo\http\header\fields;
 
 /**
- * Implementação do campo Content-Language que serve para descrever o idioma
- * @final
- * @package		rpo
- * @subpackage	http\header\fields
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @brief		HTTP Content-Language.
+ * @details		Implementação do campo Content-Language que serve para descrever o idioma.
+ * @class		ContentLanguage
+ * @extends		AbstractHTTPHeaderField
  */
 final class ContentLanguage extends \rpo\http\header\AbstractHTTPHeaderField {
 	/**
 	 * Constroi o objeto que representa o cabeçalho HTTP Content-Language
-	 * @param string $value Valor do campo de cabeçalho
+	 * @param $value string Valor do campo de cabeçalho
 	 */
 	public function __construct( $value ){
 		parent::__construct( 'Content-Language' , $value );

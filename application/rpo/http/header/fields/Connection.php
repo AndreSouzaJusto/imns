@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -47,26 +48,27 @@
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
  *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	http\header\fields
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Campos de cabeçalho do protocolo HTTP
+ * @package		rpo.http.header.fields
  */
 namespace rpo\http\header\fields;
 
 /**
- * Implementação do campo Connection que serve para especificar opções que são desejáveis para uma determinada conexão
- * @final
- * @package		rpo
- * @subpackage	http\header\fields
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @brief		HTTP Connection.
+ * @details		Implementação do campo Connection que serve para especificar opções que são desejáveis para uma
+ * determinada conexão.
+ * @class		Connection
+ * @extends		AbstractHTTPHeaderField
  */
 final class Connection extends \rpo\http\header\AbstractHTTPHeaderField {
 	/**
 	 * Constroi o objeto que representa o cabeçalho HTTP Connection
-	 * @param string $value Valor do campo de cabeçalho
+	 * @param $value string Valor do campo de cabeçalho
 	 */
 	public function __construct( $value ) {
 		parent::__construct( 'Connection' , $value );

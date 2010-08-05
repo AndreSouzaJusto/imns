@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -47,27 +48,27 @@
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
  *
- * @author		Rogério da Silva Yokomizo
- * @copyright	Copyright(c) 2010, Rogério da Silva Yokomizo
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	http\header\fields
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Campos de cabeçalho do protocolo HTTP
+ * @package		rpo.http.header.fields
  */
 namespace rpo\http\header\fields;
 
 /**
- * Implementação do campo Content-Encoding que é utilizado como modificador do tipo de media. Quando presente
+ * @brief		HTTP Content-Encoding.
+ * @details		Implementação do campo Content-Encoding que é utilizado como modificador do tipo de media. Quando presente
  * indica que uma codificação adicional foi aplicada ao conteúdo.
- * @final
- * @package		rpo
- * @subpackage	http\header\fields
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @class		ContentEncoding
+ * @extends		AbstractHTTPHeaderField
  */
 final class ContentEncoding extends \rpo\http\header\AbstractHTTPHeaderField {
 	/**
 	 * Constroi o objeto que representa o cabeçalho HTTP Content-Encoding
-	 * @param string $value Valor do campo de cabeçalho
+	 * @param $value string Valor do campo de cabeçalho
 	 */
 	public function __construct( $value ) {
 		parent::__construct( 'Content-Encoding' , $value );
@@ -75,8 +76,8 @@ final class ContentEncoding extends \rpo\http\header\AbstractHTTPHeaderField {
 
 	/**
 	 * Valida o valor de um campo de cabeçalho antes de aceitar seu valor
+	 * @param $value string
 	 * @return boolean
-	 * @param string $value
 	 */
 	public function accept( $value ) {
 		return (bool) preg_match( '/^\w+$/' , $value );
