@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -46,30 +47,31 @@
  * DE DADOS OU DADOS SENDO GERADOS DE FORMA IMPRECISA, PERDAS SOFRIDAS POR VOCÊ OU TERCEIROS OU A IMPOSSIBILIDADE DO
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
- *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	http
+ * 
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Classes e interfaces relacionadas com o protocolo HTTP
+ * @package		rpo.http
  */
 namespace rpo\http;
 
 use \ReflectionClass;
+use \ReflectionException;
 use rpo\base\BaseObject;
 use rpo\http\header\fields\Accept;
 
 /**
  * Implementação de um set que conterá os cabeçalhos HTTP
- * @package		rpo
- * @subpackage	http
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @class	HTTPHeaderSet
+ * @extends	AbstractSet
  */
 class HTTPHeaderSet extends \rpo\util\AbstractSet {
 	/**
 	 * Constroi o Set de cabeçalhos HTTP
-	 * @param array $headers
+	 * @param $headers array
 	 */
 	public function __construct( array $headers = null ) {
 		parent::__construct();
@@ -81,7 +83,7 @@ class HTTPHeaderSet extends \rpo\util\AbstractSet {
 
 	/**
 	 * Verifica se o objeto pode ser aceito pelo Set
-	 * @param \rpo\base\BaseObject $object
+	 * @param $object BaseObject
 	 * @return boolean
 	 */
 	protected function accept( BaseObject $object ) {
@@ -92,7 +94,7 @@ class HTTPHeaderSet extends \rpo\util\AbstractSet {
 
 	/**
 	 * Recebe a lista de campos de cabeçalho e converte nos respectivos objetos
-	 * @param array $headers
+	 * @param $headers array
 	 */
 	private function parse( array $headers ) {
 		foreach ( $headers as $field => $value ) {

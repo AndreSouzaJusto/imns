@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -46,13 +47,14 @@
  * DE DADOS OU DADOS SENDO GERADOS DE FORMA IMPRECISA, PERDAS SOFRIDAS POR VOCÊ OU TERCEIROS OU A IMPOSSIBILIDADE DO
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
- *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	http
+ * 
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Classes e interfaces relacionadas com o protocolo HTTP
+ * @package		rpo.http
  */
 namespace rpo\http;
 
@@ -62,31 +64,26 @@ use rpo\http\header\fields\ContentMD5;
 
 /**
  * Representação da resposta de uma requisição HTTP
- * @final
- * @package		rpo
- * @subpackage	http
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @class		HTTPResponse
+ * @extends		Object
+ * @implements	HTTPIO
  */
 final class HTTPResponse extends \rpo\base\Object implements \rpo\http\HTTPIO {
 	/**
 	 * Instância única do objeto HTTPResponse
-	 * @access	private
-	 * @var		\rpo\http\HTTPResponse
-	 * @staticvar
+	 * @var		HTTPResponse
 	 */
 	private static $instance;
 
 	/**
 	 * Corpo da resposta HTTP
-	 * @access	private
-	 * @var		\rpo\http\HTTPBody
+	 * @var		\HTTPBody
 	 */
 	private $body;
 
 	/**
 	 * Lista de cabeçalhos HTTP que serão enviados
-	 * @access	private
-	 * @var		\rpo\http\HTTPHeaderSet
+	 * @var		HTTPHeaderSet
 	 */
 	private $headers;
 
@@ -102,7 +99,7 @@ final class HTTPResponse extends \rpo\base\Object implements \rpo\http\HTTPIO {
 
 	/**
 	 * Recupera o corpo da requisição ou resposta
-	 * @return \rpo\http\HTTPBody
+	 * @return HTTPBody
 	 */
 	public function getBody() {
 		return $this->body;
@@ -110,7 +107,7 @@ final class HTTPResponse extends \rpo\base\Object implements \rpo\http\HTTPIO {
 
 	/**
 	 * Recupera a lista de cabeçalhos de entrada ou saída
-	 * @return rpo\http\HTTPHeaderSet
+	 * @return HTTPHeaderSet
 	 */
 	public function getHeaders() {
 		return $this->headers;
@@ -118,8 +115,7 @@ final class HTTPResponse extends \rpo\base\Object implements \rpo\http\HTTPIO {
 
 	/**
 	 * Recupera a instância do objeto
-	 * @return rpo\http\HTTPResponse
-	 * @static
+	 * @return HTTPResponse
 	 */
 	public static function getInstance() {
 		if ( self::$instance == null ) {

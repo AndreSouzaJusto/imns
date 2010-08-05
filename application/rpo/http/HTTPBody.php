@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -46,13 +47,14 @@
  * DE DADOS OU DADOS SENDO GERADOS DE FORMA IMPRECISA, PERDAS SOFRIDAS POR VOCÊ OU TERCEIROS OU A IMPOSSIBILIDADE DO
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
- *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	http
+ * 
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Classes e interfaces relacionadas com o protocolo HTTP
+ * @package		rpo.http
  */
 namespace rpo\http;
 
@@ -61,20 +63,19 @@ use \stdClass;
 
 /**
  * Implementação do corpo de uma requisição ou resposta HTTP
- * @package		rpo
- * @subpackage	http
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @class	HTTPBody
+ * @extends	Object
  */
 class HTTPBody extends \rpo\base\Object {
 	/**
 	 * Objeto da composição da interface de usuário
-	 * @var \rpo\gui\widget\panel\RootPanel
+	 * @var RootPanel
 	 */
 	private $composite;
 
 	/**
 	 * Dados da requisição ou resposta
-	 * @var \stdClass
+	 * @var stdClass
 	 */
 	private $data;
 
@@ -88,7 +89,7 @@ class HTTPBody extends \rpo\base\Object {
 
 	/**
 	 * Recupera o Componente root
-	 * @return \rpo\gui\widget\panel\RootPanel
+	 * @return RootPanel
 	 */
 	public function getComposite() {
 		return $this->composite;
@@ -96,7 +97,7 @@ class HTTPBody extends \rpo\base\Object {
 
 	/**
 	 * Recupera o objeto de dados
-	 * @return \stdClass
+	 * @return stdClass
 	 */
 	public function getData() {
 		return $this->data;

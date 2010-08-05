@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -46,13 +47,14 @@
  * DE DADOS OU DADOS SENDO GERADOS DE FORMA IMPRECISA, PERDAS SOFRIDAS POR VOCÊ OU TERCEIROS OU A IMPOSSIBILIDADE DO
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
- *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	http
+ * 
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Classes e interfaces relacionadas com o protocolo HTTP
+ * @package		rpo.http
  */
 namespace rpo\http;
 
@@ -64,31 +66,26 @@ use rpo\http\header\fields\Protocol;
 
 /**
  * Representação da requisição do usuário
- * @final
- * @package		rpo
- * @subpackage	http
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @class		HTTPRequest
+ * @extends		Object
+ * @implements	HTTPIO
  */
 final class HTTPRequest extends \rpo\base\Object implements \rpo\http\HTTPIO {
 	/**
 	 * Instância única da requisição do usuário
-	 * @access	private
-	 * @var		\rpo\http\HTTPRequest
-	 * @staticvar
+	 * @var		HTTPRequest
 	 */
 	private static $instance;
 
 	/**
 	 * Corpo da requisição
-	 * @access	private
-	 * @var		\rpo\http\HTTPBody
+	 * @var		HTTPBody
 	 */
 	private $body;
 
 	/**
 	 * Lista de cabeçalhos da requisição
-	 * @access	private
-	 * @var		\rpo\http\HTTPHeaderSet
+	 * @var		HTTPHeaderSet
 	 */
 	private $headers;
 
@@ -106,14 +103,13 @@ final class HTTPRequest extends \rpo\base\Object implements \rpo\http\HTTPIO {
 
 	/**
 	 * URI da requisição do usuário
-	 * @access	private
 	 * @var		string
 	 */
 	private $uri;
 
 	/**
 	 * Constroi o objeto de requisição
-	 * @param string $base Diretório base da requisição (eq: RewriteBase)
+	 * @param $base string Diretório base da requisição (eq: RewriteBase)
 	 */
 	private function __construct( $base ) {
 		$match = array();
@@ -128,7 +124,7 @@ final class HTTPRequest extends \rpo\base\Object implements \rpo\http\HTTPIO {
 
 	/**
 	 * Recupera o corpo da requisição ou resposta
-	 * @return \rpo\http\HTTPBody
+	 * @return HTTPBody
 	 */
 	public function getBody() {
 		if ( is_null( $this->body ) ) {
@@ -142,7 +138,7 @@ final class HTTPRequest extends \rpo\base\Object implements \rpo\http\HTTPIO {
 
 	/**
 	 * Recupera a lista de cabeçalhos de entrada ou saída
-	 * @return rpo\http\HTTPHeaderSet
+	 * @return HTTPHeaderSet
 	 */
 	public function getHeaders() {
 		if ( is_null( $this->headers ) ) {
@@ -193,7 +189,8 @@ final class HTTPRequest extends \rpo\base\Object implements \rpo\http\HTTPIO {
 
 	/**
 	 * Recupera a instância do objeto de requisição do usuário
-	 * @return rpo\http\HTTPRequest
+	 * @param $base string Diretório base da requisição
+	 * @return HTTPRequest
 	 */
 	public static function getInstance( $base = '/' ) {
 		if ( self::$instance == null ) {

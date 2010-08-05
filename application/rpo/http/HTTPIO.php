@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -46,32 +47,32 @@
  * DE DADOS OU DADOS SENDO GERADOS DE FORMA IMPRECISA, PERDAS SOFRIDAS POR VOCÊ OU TERCEIROS OU A IMPOSSIBILIDADE DO
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
- *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	http
+ * 
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Classes e interfaces relacionadas com o protocolo HTTP
+ * @package		rpo.http
  */
 namespace rpo\http;
 
 /**
  * Interface para definição de entrada e saída HTTP
- * @package		rpo
- * @subpackage	http
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @interface	HTTPIO
+ * @extends		BaseObject
  */
 interface HTTPIO extends \rpo\base\BaseObject {
 	/**
 	 * Recupera o corpo da requisição ou resposta
-	 * @return \rpo\http\HTTPBody
+	 * @return HTTPBody
 	 */
 	public function getBody();
 
 	/**
 	 * Recupera a lista de cabeçalhos de entrada ou saída
-	 * @return \rpo\http\HTTPHeaderSet
+	 * @return HTTPHeaderSet
 	 */
 	public function getHeaders();
 }
