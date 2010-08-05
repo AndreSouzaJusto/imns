@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -47,33 +48,45 @@
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
  *
- * @copyright	Copyright(c) 2010
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		com
- * @subpackage	base
- * @version     $Id$
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Base da rede social
+ * @details		Módulo base da rede social Tyfu, toda a estrutura MVC da rede social
+ * concentra-se nesse pacote
+ * @package		com.base
  */
 namespace com\base;
 
-use rpo\mvc\Controller;
-use rpo\mvc\ControllerChain;
+use rpo\base\Strings;
 use rpo\http\HTTPRequest;
 use rpo\http\HTTPRequestMethod;
+use rpo\http\header\fields\Allow;
+use rpo\http\header\fields\Connection;
+use rpo\http\header\fields\ContentLanguage;
+use rpo\http\header\fields\ContentType;
+use rpo\http\header\fields\HTTPVersion;
+use rpo\http\header\fields\KeepAlive;
 use rpo\http\header\fields\Protocol;
+use rpo\http\header\fields\Upgrade;
+use rpo\http\exception\BadRequestException;
+use rpo\http\exception\HttpVersionNotSupportedException;
+use rpo\http\exception\MethodNotAllowedException;
+use rpo\http\exception\NotAcceptableException;
+use rpo\mvc\Controller;
+use rpo\mvc\ControllerChain;
 
 /**
- * Controlador base da rede social
- * @final
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		com
- * @subpackage	base
+ * @brief		Controlador base da rede social
+ * @class		Imns
+ * @extends		ControllerChain
  * @version     $Id$
  */
 final class Imns extends \rpo\mvc\ControllerChain {
-
 	/**
-	 * @var \com\math\MathView
+	 * @var View
 	 */
 	private $view;
 
@@ -93,7 +106,7 @@ final class Imns extends \rpo\mvc\ControllerChain {
 
 	/**
 	 * Configura o controlador
-	 * @param \rpo\mvc\ControllerChain $controller
+	 * @param $controller ControllerChain
 	 */
 	protected function configure( ControllerChain $controller ) {
 		//TODO: Adicionar os controladores da rede social
@@ -101,7 +114,7 @@ final class Imns extends \rpo\mvc\ControllerChain {
 
 	/**
 	 * Verifica se o controlador manipula a requisição
-	 * @param \rpo\http\HTTPRequest $request
+	 * @param $request HTTPRequest
 	 * @return boolean
 	 */
 	public function canHandle( HTTPRequest $request ) {
@@ -119,10 +132,10 @@ final class Imns extends \rpo\mvc\ControllerChain {
 			 * informando o protocolo HTTP/1.1 e disparamos a exceção HttpVersionNotSupportedException.
 			 */
 			if ( $request->getProtocolVersion() == Protocol::HTTP_1_0 ){
-				$headers->add( new \rpo\http\header\fields\Upgrade( Protocol::HTTP , Protocol::HTTP_1_1 ) );
+				$headers->add( new Upgrade( Protocol::HTTP , Protocol::HTTP_1_1 ) );
 			} elseif ( $request->getProtocolVersion() != Protocol::HTTP_1_1 ){
-				$headers->add( new \rpo\http\header\fields\HTTPVersion( Protocol::HTTP , Protocol::HTTP_1_1 ) );
-				throw new \rpo\http\exception\HttpVersionNotSupportedException( 'Protocolo não suportado.' );
+				$headers->add( new HTTPVersion( Protocol::HTTP , Protocol::HTTP_1_1 ) );
+				throw new HttpVersionNotSupportedException( 'Protocolo não suportado.' );
 			}
 
 			if ( ( $method == HTTPRequestMethod::GET ) || ( $method == HTTPRequestMethod::POST ) ) {
@@ -137,14 +150,14 @@ final class Imns extends \rpo\mvc\ControllerChain {
 									$acceptable = true;
 									$contentType = $priority == '*' ? array_shift( $this->acceptable ) : $priority;
 
-									$headers->add( new \rpo\http\header\fields\ContentType( $contentType ) );
+									$headers->add( new ContentType( $contentType ) );
 
 									break;
 								}
 							}
 
 							if (  !$acceptable ) {
-								throw new \rpo\http\exception\NotAcceptableException( 'Not Acceptable' );
+								throw new NotAcceptableException( 'Not Acceptable' );
 							}
 							break;
 
@@ -155,12 +168,12 @@ final class Imns extends \rpo\mvc\ControllerChain {
 								if ( ( $priority == '*' ) || in_array( $priority , $this->languages ) ) {
 									$acceptable = true;
 									$contentLanguage = ( $priority == '*' ) ? array_shift( $this->contentLanguages ) : $priority;
-									$headers->add( new \rpo\http\header\fields\ContentLanguage( $contentLanguage ) );
+									$headers->add( new ContentLanguage( $contentLanguage ) );
 								}
 							}
 
 							if (  !$acceptable ) {
-								throw new \rpo\http\exception\NotAcceptableException( 'A aplicação não suporta o idioma requerido.' );
+								throw new NotAcceptableException( 'A aplicação não suporta o idioma requerido.' );
 							}
 							break;
 
@@ -168,9 +181,9 @@ final class Imns extends \rpo\mvc\ControllerChain {
 							$value = $header->getValue();
 
 							if ( ( $value == 'keep-alive' ) || ( $value == 'close' ) ) {
-								$headers->add( new \rpo\http\header\fields\Connection( $value ) );
+								$headers->add( new Connection( $value ) );
 							} else {
-								throw new \rpo\http\exception\BadRequestException( 'Bad Request' );
+								throw new BadRequestException( 'Bad Request' );
 							}
 							break;
 
@@ -178,30 +191,30 @@ final class Imns extends \rpo\mvc\ControllerChain {
 							$keepAlive = $header->getValue();
 
 							if ( (int) $keepAlive == $keepAlive ) {
-								$headers->add( new \rpo\http\header\fields\KeepAlive( (int) $keepAlive ) );
+								$headers->add( new KeepAlive( (int) $keepAlive ) );
 							} else {
-								throw new \rpo\http\exception\BadRequestException( 'Bad Request' );
+								throw new BadRequestException( 'Bad Request' );
 							}
 							break;
 
 						case 'rpo\http\header\fields\AcceptCharset' :
-							\rpo\base\String::setDefaultEncoding( $header->getValue() );
+							Strings::setDefaultEncoding( $header->getValue() );
 							break;
 
 						case 'rpo\http\header\fields\Host' :
 							if ( $header->getPort() != 80 ){
-								throw new \rpo\http\exception\BadRequestException( 'A porta utilizada pela requisição é inválida.' );
+								throw new BadRequestException( 'A porta utilizada pela requisição é inválida.' );
 							}
 					}
 
 				}
 
 			} else {
-				$headers->add( new \rpo\http\header\fields\Allow( 'GET, POST' ) );
-				throw new \rpo\http\exception\MethodNotAllowedException( 'Método não permitido' );
+				$headers->add( new Allow( 'GET, POST' ) );
+				throw new MethodNotAllowedException( 'Método não permitido' );
 			}
 		} else {
-			throw new \rpo\http\exception\BadRequestException( 'Protocolo não suportado.' );
+			throw new BadRequestException( 'Protocolo não suportado.' );
 		}
 
 		return parent::canHandle( $request );
@@ -209,7 +222,7 @@ final class Imns extends \rpo\mvc\ControllerChain {
 
 	/**
 	 * Manipula a requisição do usuário
-	 * @param \rpo\http\HTTPRequest $request
+	 * @param $request HTTPRequest
 	 */
 	public function handle( HTTPRequest $request ) {
 		foreach ( $this->getIterator() as $controller ) {
