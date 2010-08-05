@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -46,24 +47,25 @@
  * DE DADOS OU DADOS SENDO GERADOS DE FORMA IMPRECISA, PERDAS SOFRIDAS POR VOCÊ OU TERCEIROS OU A IMPOSSIBILIDADE DO
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
- *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	gui\widget
+ * 
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Widgets utilizados para construir a Interface gráfica de usuário
+ * @details		Toda a base dos objetos de interface de usuário concentram-se nesse pacote.
+ * @package		rpo.gui.widget
  */
 namespace rpo\gui\widget;
 
-use rpo\base\String;
+use \InvalidArgumentException;
+use rpo\base\Strings;
 
 /**
  * Implementação da tag H1-6
- * @abstract
- * @package		rpo
- * @subpackage	gui\widget
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @class	Heading
+ * @extends	SimpleWidget
  */
 class Heading extends \rpo\gui\widget\base\SimpleWidget {
 	/**
@@ -74,17 +76,17 @@ class Heading extends \rpo\gui\widget\base\SimpleWidget {
 
 	/**
 	 * Texto do cabeçalho
-	 * @var \rpo\base\String
+	 * @var Strings
 	 */
 	private $heading;
 
 	/**
 	 * Constroi o objeto que representa a tag H1-6
-	 * @param String $heading Conteúdo da tag
-	 * @param integer $level Nível da tag (1-6)
+	 * @param $heading Strings Conteúdo da tag
+	 * @param $level integer Nível da tag (1-6)
 	 * @throws InvalidArgumentException Se $level for menor que 1 ou maior que 6
 	 */
-	public function __construct( String $heading , $level = 1 ){
+	public function __construct( Strings $heading , $level = 1 ){
 		parent::__construct();
 
 		if ( is_integer( $level ) && ( ( $level >= 1 ) && ( $level <= 6 ) ) ){
