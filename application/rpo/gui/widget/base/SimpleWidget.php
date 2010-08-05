@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -46,27 +47,26 @@
  * DE DADOS OU DADOS SENDO GERADOS DE FORMA IMPRECISA, PERDAS SOFRIDAS POR VOCÊ OU TERCEIROS OU A IMPOSSIBILIDADE DO
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
- *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	gui\widget\base
+ * 
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Base para os widgets da Interface gráfica de usuário
+ * @details		Toda a base dos objetos de interface de usuário concentram-se nesse pacote.
+ * @package		rpo.gui.widget.base
  */
 namespace rpo\gui\widget\base;
 
 /**
  * Interface para definição de um Widget que NÃO pode ter filhos
- * @abstract
- * @package		rpo
- * @subpackage	gui\widget\base
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @class		SimpleWidget
+ * @extends		Widget
  */
 abstract class SimpleWidget extends \rpo\gui\widget\base\Widget {
 	/**
 	 * Retornamos sempre true, já que se trata de um Leaf
-	 * @final
 	 * @return boolean
 	 */
 	final public function isLeaf() {

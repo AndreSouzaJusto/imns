@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -10,7 +11,7 @@
  * 2. O direito de estudar como o programa funciona e adptá-lo para suas necessidades.
  * 3. O direito de redistribuir cópias, permitindo assim que você ajude outras pessoas.
  * 4. O direito de aperfeiçoar o programa, e distribuir seus aperfeiçoamentos para o público,
- *    beneficiando assim toda a comunidade.
+ * beneficiando assim toda a comunidade.
  *
  * Você terá os direitos acima especificados contanto que Você cumpra com os requisitos expressos
  * nesta Licença.
@@ -47,12 +48,14 @@
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
  *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	gui\widget\base
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Base para os widgets da Interface gráfica de usuário
+ * @details		Toda a base dos objetos de interface de usuário concentram-se nesse pacote.
+ * @package		rpo.gui.widget.base
  */
 namespace rpo\gui\widget\base;
 
@@ -62,22 +65,20 @@ use rpo\gui\composite\Component;
 
 /**
  * Interface para definição de um widget para a interface de usuário
- * @abstract
- * @package		rpo
- * @subpackage	gui\widget\base
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @class		Widget
+ * @extends		UIObject
  */
 abstract class Widget extends \rpo\gui\UIObject {
 	/**
 	 * Pai do widget
-	 * @var \rpo\gui\widget\base\Widget
+	 * @var Widget
 	 */
 	private $father;
 
 	/**
 	 * Verifica se o componente aceita um outro componente como filho
-	 * @param \rpo\gui\widget\base\Widget $component
-	 * @return boolean
+	 * @param	$component Widget
+	 * @return	boolean
 	 */
 	protected function accept( Widget $component ) {
 		return true;
@@ -85,10 +86,10 @@ abstract class Widget extends \rpo\gui\UIObject {
 
 	/**
 	 * Adiciona um novo filho ao componente
-	 * @param \rpo\gui\composite\Component $component
-	 * @see \rpo\gui\composite\Component::appendChild()
-	 * @throws \InvalidArgumentException Se o filho não for aceito pelo Widget
-	 * @throws \InvalidArgumentException Se não for passado um widget
+	 * @param	$child Component
+	 * @see		Component::appendChild()
+	 * @throws	InvalidArgumentException Se o filho não for aceito pelo Widget
+	 * @throws	InvalidArgumentException Se não for passado um widget
 	 */
 	public function appendChild( Component $child ){
 		if ( $child->getClass()->isSubclassOf( 'rpo\gui\widget\base\Widget' ) ){
@@ -106,7 +107,7 @@ abstract class Widget extends \rpo\gui\UIObject {
 
 	/**
 	 * Recupera o pai do widget
-	 * @return \rpo\gui\widget\base\Widget
+	 * @return Widget
 	 */
 	public function getParent(){
 		return $this->father;
@@ -122,8 +123,8 @@ abstract class Widget extends \rpo\gui\UIObject {
 
 	/**
 	 * Remove um filho do componente
-	 * @param \rpo\gui\composite\Component $child
-	 * @see \rpo\gui\composite\Component::removeChild
+	 * @param	$child Component
+	 * @see		Component::removeChild()
 	 */
 	public function removeChild( Component $child ) {
 		parent::removeChild( $child );
@@ -132,9 +133,9 @@ abstract class Widget extends \rpo\gui\UIObject {
 
 	/**
 	 * Remove o widget de seu pai
-	 * @see \rpo\gui\composite\Component::removeChild
-	 * @throws \BadMethodCallException Se o filho for orfão
-	 * @throws \RuntimeException Se o filho não for orfão, mas não estiver contido na lista de filhos do pai
+	 * @see		Component::removeChild()
+	 * @throws	BadMethodCallException Se o filho for orfão
+	 * @throws	RuntimeException Se o filho não for orfão, mas não estiver contido na lista de filhos do pai
 	 */
 	public function removeFromParent(){
 		if ( $this->isOrphan() ){
@@ -152,8 +153,8 @@ abstract class Widget extends \rpo\gui\UIObject {
 
 	/**
 	 * Define o widget como orfão
-	 * @see \rpo\gui\widget\base\Widget::isOrphan
-	 * @throws \LogicException Se o widget já for orfão
+	 * @see		Widget::isOrphan()
+	 * @throws	LogicException Se o widget já for orfão
 	 */
 	public function setOrphan(){
 		if ( $this->isOrphan() ){
@@ -165,8 +166,8 @@ abstract class Widget extends \rpo\gui\UIObject {
 
 	/**
 	 * Define o pai do widget
-	 * @param \rpo\gui\widget\base\Widget $father
-	 * @throws \LogicException Se o componente já possuir um pai
+	 * @param	$father Widget
+	 * @throws	LogicException Se o componente já possuir um pai
 	 */
 	public function setParent( Widget $father ){
 		if ( $this->isOrphan() ){
