@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -46,32 +47,33 @@
  * DE DADOS OU DADOS SENDO GERADOS DE FORMA IMPRECISA, PERDAS SOFRIDAS POR VOCÊ OU TERCEIROS OU A IMPOSSIBILIDADE DO
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
- *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	gui\widget\panel
+ * 
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Paineis da interface gráfica do usuário
+ * @details		Toda a base dos objetos de interface de usuário concentram-se nesse pacote.
+ * @package		rpo.gui.widget.panel
  */
 namespace rpo\gui\widget\panel;
 
 use \LengthException;
 use rpo\gui\widget\base\Widget;
+use rpo\gui\widget\panel\SimplePanel;
 
 /**
  * Implementação do componente raiz da aplicação, esse componente aceita 1 e apenas 1 componente como filho
- * @final
- * @package		rpo
- * @subpackage	gui\widget\panel
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @class	RootPanel
+ * @extends	SimplePanel
  */
 final class RootPanel extends \rpo\gui\widget\panel\SimplePanel {
 	/**
 	 * Verifica se o componente aceita um outro componente como filho
-	 * @param \rpo\gui\widget\base\Widget $component
+	 * @param $component Widget
 	 * @return boolean
-	 * @throws \LengthException Se tentar adicionar mais que 1 widget ao RootPanel
+	 * @throws LengthException Se tentar adicionar mais que 1 widget ao RootPanel
 	 */
 	protected function accept( Widget $component ) {
 		if ( $this->children->count() == 0 ){
@@ -90,8 +92,9 @@ final class RootPanel extends \rpo\gui\widget\panel\SimplePanel {
 
 	/**
 	 * Define o pai do widget
-	 * @return \rpo\gui\widget\Widget
-	 * @throws \LogicException RootPanel é o componente de mais alto nível e, como tal,
+	 * @param $father Widget
+	 * @return Widget
+	 * @throws LogicException RootPanel é o componente de mais alto nível e, como tal,
 	 * jamais deve ser adicionado como filho de outro componente.
 	 */
 	public function setParent( Widget $father ){

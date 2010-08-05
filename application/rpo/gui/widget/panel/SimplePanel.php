@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -10,7 +11,7 @@
  * 2. O direito de estudar como o programa funciona e adptá-lo para suas necessidades.
  * 3. O direito de redistribuir cópias, permitindo assim que você ajude outras pessoas.
  * 4. O direito de aperfeiçoar o programa, e distribuir seus aperfeiçoamentos para o público,
- *    beneficiando assim toda a comunidade.
+ * beneficiando assim toda a comunidade.
  *
  * Você terá os direitos acima especificados contanto que Você cumpra com os requisitos expressos
  * nesta Licença.
@@ -47,22 +48,24 @@
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
  *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	gui\widget\panel
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Paineis da interface gráfica do usuário
+ * @details		Toda a base dos objetos de interface de usuário concentram-se nesse pacote.
+ * @package		rpo.gui.widget.panel
  */
 namespace rpo\gui\widget\panel;
 
 /**
- * Implementação de um painel simples, que utiliza a marcação HTML <div>
- * @package		rpo
- * @subpackage	gui\widget\panel
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * Implementação de um painel simples, que utiliza a marcação HTML DIV
+ * @class		SimplePanel
+ * @extends		ComplexWidget
+ * @implements	Panel
  */
-class SimplePanel extends \rpo\gui\widget\base\ComplexWidget implements Panel {
+class SimplePanel extends \rpo\gui\widget\base\ComplexWidget implements \rpo\gui\widget\panel\Panel {
 	/**
 	 * Recupera o número de filhos de primeiro nível do painel
 	 * @return integer
