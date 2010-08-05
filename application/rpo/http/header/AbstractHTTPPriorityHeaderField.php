@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -46,13 +47,14 @@
  * DE DADOS OU DADOS SENDO GERADOS DE FORMA IMPRECISA, PERDAS SOFRIDAS POR VOCÊ OU TERCEIROS OU A IMPOSSIBILIDADE DO
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
- *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	http\header
+ * 
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Cabeçalhos HTTP
+ * @package		rpo.http.header
  */
 namespace rpo\http\header;
 
@@ -60,24 +62,22 @@ use SplPriorityQueue;
 
 /**
  * Base para implementação de um campo de cabeçalho que possui prioridade
- * @abstract
- * @package		rpo
- * @subpackage	http\header
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @class		AbstractHTTPPriorityHeaderField
+ * @extends		AbstractHTTPHeaderField
+ * @implements	HTTPPriorityHeaderField
  */
 abstract class AbstractHTTPPriorityHeaderField extends \rpo\http\header\AbstractHTTPHeaderField implements \rpo\http\header\HTTPPriorityHeaderField {
 	/**
 	 * Fila de cabeçalhos segundo sua prioridade
-	 * @access	private
-	 * @var		\SplPriorityQueue
+	 * @var	SplPriorityQueue
 	 */
 	private $queue;
 
 	/**
 	 * Constroi um campo de cabeçalho HTTP com valores prioritários
-	 * @param string $name Nome do cabeçalho
-	 * @param string $value Valor do cabeçalho
-	 * @param integer $status Código de status
+	 * @param $name string Nome do cabeçalho
+	 * @param $value string Valor do cabeçalho
+	 * @param $status integer Código de status
 	 */
 	public function __construct( $name , $value , $status = null ) {
 		parent::__construct( $name , $value , $status );
@@ -89,7 +89,7 @@ abstract class AbstractHTTPPriorityHeaderField extends \rpo\http\header\Abstract
 
 	/**
 	 * Interpreta o valor do cabeçalho
-	 * @param string $value
+	 * @param $value string
 	 */
 	private function parse( $value ) {
 		$match = array();
@@ -111,7 +111,7 @@ abstract class AbstractHTTPPriorityHeaderField extends \rpo\http\header\Abstract
 	/**
 	 * Recupera o valor atual
 	 * @return string
-	 * @see rpo\http\header\AbstractHTTPPriorityHeaderField::getValue()
+	 * @see AbstractHTTPPriorityHeaderField::getValue()
 	 */
 	public function current() {
 		return $this->getValue();
@@ -140,7 +140,7 @@ abstract class AbstractHTTPPriorityHeaderField extends \rpo\http\header\Abstract
 	/**
 	 * Recupera o offset do item atual
 	 * @return integer
-	 * @see \Iterator::key()
+	 * @see Iterator::key()
 	 */
 	public function key() {
 		return $this->queue->key();
@@ -148,7 +148,7 @@ abstract class AbstractHTTPPriorityHeaderField extends \rpo\http\header\Abstract
 
 	/**
 	 * Avança para o próximo item
-	 * @see \Iterator::next()
+	 * @see Iterator::next()
 	 */
 	public function next() {
 		$this->queue->next();
@@ -156,7 +156,7 @@ abstract class AbstractHTTPPriorityHeaderField extends \rpo\http\header\Abstract
 
 	/**
 	 * Reinicia o Iterator
-	 * @see \Iterator::rewind()
+	 * @see Iterator::rewind()
 	 */
 	public function rewind() {
 		$this->queue->rewind();
@@ -164,7 +164,7 @@ abstract class AbstractHTTPPriorityHeaderField extends \rpo\http\header\Abstract
 
 	/**
 	 * Verifica se o Iterator é válido
-	 * @see \Iterator::rewind()
+	 * @see Iterator::rewind()
 	 */
 	public function valid() {
 		return $this->queue->valid();

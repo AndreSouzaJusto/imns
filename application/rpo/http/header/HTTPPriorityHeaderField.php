@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -46,21 +47,22 @@
  * DE DADOS OU DADOS SENDO GERADOS DE FORMA IMPRECISA, PERDAS SOFRIDAS POR VOCÊ OU TERCEIROS OU A IMPOSSIBILIDADE DO
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
- *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	http\header
+ * 
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Cabeçalhos HTTP
+ * @package		rpo.http.header
  */
 namespace rpo\http\header;
 
 /**
  * Interface para definição de um campo de cabeçalho que possui prioridade
- * @package		rpo
- * @subpackage	http\header
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @interface	HTTPPriorityHeaderField
+ * @extends		HTTPHeaderField
+ * @extends		Iterator
  */
 interface HTTPPriorityHeaderField extends \rpo\http\header\HTTPHeaderField, \Iterator {
 	/**

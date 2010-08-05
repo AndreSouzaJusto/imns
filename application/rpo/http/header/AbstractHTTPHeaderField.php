@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -46,52 +47,50 @@
  * DE DADOS OU DADOS SENDO GERADOS DE FORMA IMPRECISA, PERDAS SOFRIDAS POR VOCÊ OU TERCEIROS OU A IMPOSSIBILIDADE DO
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
- *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	http\header
+ * 
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Cabeçalhos HTTP
+ * @package		rpo.http.header
  */
 namespace rpo\http\header;
 
+use rpo\base\Strings;
 use \UnexpectedValueException;
 
 /**
  * Base para a implementação de um campo de cabeçalho
- * @abstract
- * @package		rpo
- * @subpackage	http\header
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @class		AbstractHTTPHeaderField
+ * @extends		Object
+ * @implements	HTTPHeaderField
  */
 abstract class AbstractHTTPHeaderField extends \rpo\base\Object implements \rpo\http\header\HTTPHeaderField {
 	/**
 	 * Nome do campo de cabeçalho
-	 * @access	private
 	 * @var		string
 	 */
 	private $name;
 
 	/**
 	 * Valor do campo de cabeçalho
-	 * @access	private
 	 * @var		string
 	 */
 	private $value;
 
 	/**
 	 * Código de status do cabeçalho
-	 * @access	private
 	 * @var		integer
 	 */
 	private $status;
 
 	/**
 	 * Constroi um novo campo de cabeçalho
-	 * @param string $name Nome do campo de cabeçalho
-	 * @param string $value Valor do campo de cabeçalho
-	 * @param integer $status Código de status do cabeçalho
+	 * @param $name string Nome do campo de cabeçalho
+	 * @param $value string Valor do campo de cabeçalho
+	 * @param $status integer Código de status do cabeçalho
 	 */
 	public function __construct( $name , $value , $status = null ) {
 		$this->name = $name;
@@ -109,7 +108,7 @@ abstract class AbstractHTTPHeaderField extends \rpo\base\Object implements \rpo\
 
 	/**
 	 * Verifica se um valor é aceitável pelo o campo
-	 * @param string $value
+	 * @param $value string
 	 * @return boolean
 	 */
 	protected function accept( $value ) {
@@ -142,17 +141,17 @@ abstract class AbstractHTTPHeaderField extends \rpo\base\Object implements \rpo\
 
 	/**
 	 * Recupera o hash do campo de cabeçalho
-	 * @return \rpo\base\String
+	 * @return Strings
 	 * @see Object::hashCode()
 	 */
 	public function hashCode() {
-		return new \rpo\base\String( md5( $this->getClass()->getName() ) );
+		return new Strings( md5( $this->getClass()->getName() ) );
 	}
 
 	/**
 	 * Define o valor do cabeçalho
-	 * @param string $value
-	 * @throws \UnexpectedValueException Se o valor não for aceito pelo cabeçalho
+	 * @param $value string
+	 * @throws UnexpectedValueException Se o valor não for aceito pelo cabeçalho
 	 */
 	public function setValue( $value ) {
 		if ( $this->accept( $value ) ) {
