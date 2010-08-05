@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -46,31 +47,32 @@
  * DE DADOS OU DADOS SENDO GERADOS DE FORMA IMPRECISA, PERDAS SOFRIDAS POR VOCÊ OU TERCEIROS OU A IMPOSSIBILIDADE DO
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
- *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	gui\composite
+ * 
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Base para os widgets da Interface gráfica de usuário
+ * @details		Toda a base dos objetos de interface de usuário concentram-se nesse pacote.
+ * @package		rpo.gui.composite
  */
 namespace rpo\gui\composite;
 
 use \IteratorIterator;
+use \LogicException;
 use rpo\gui\composite\ComponentList;
 
 /**
  * Interface para definição de um Component
- * @abstract
- * @package		rpo
- * @subpackage	gui\composite
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @class		Component
+ * @extends		Object
+ * @implements	IteratorAggregate
  */
 abstract class Component extends \rpo\base\Object implements \IteratorAggregate {
 	/**
 	 * Lista de filhos do componente
-	 * @access	protected
-	 * @var		\rpo\gui\composite\ComponentList
+	 * @var		ComponentList
 	 */
 	protected $children;
 
@@ -83,8 +85,8 @@ abstract class Component extends \rpo\base\Object implements \IteratorAggregate 
 
 	/**
 	 * Adiciona um novo filho ao componente
-	 * @param \rpo\gui\composite\Component $component
-	 * @throws \LogicException Se o componente pai for um Leaf
+	 * @param	$component Component
+	 * @throws	LogicException Se o componente pai for um Leaf
 	 */
 	public function appendChild( Component $component ) {
 		if (  !$this->isLeaf() ) {
@@ -96,8 +98,8 @@ abstract class Component extends \rpo\base\Object implements \IteratorAggregate 
 
 	/**
 	 * Verifica se o componente contém um determinado filho
-	 * @param \rpo\gui\composite\Component $component
-	 * @return boolean
+	 * @param	$component Component
+	 * @return	boolean
 	 */
 	public function contains( Component $component ) {
 		return $this->isLeaf() ? false : $this->children->contains( $component );
@@ -110,7 +112,7 @@ abstract class Component extends \rpo\base\Object implements \IteratorAggregate 
 
 	/**
 	 * Recupera um Iterator para os filhos do componente
-	 * @return \Iterator
+	 * @return Iterator
 	 */
 	public function getIterator() {
 		return $this->children->getIterator();
@@ -124,8 +126,8 @@ abstract class Component extends \rpo\base\Object implements \IteratorAggregate 
 
 	/**
 	 * Remove um filho do componente
-	 * @param \rpo\gui\composite\Component $child
-	 * @throws \LogicException Se o filho a ser removido não for filho desse pai
+	 * @param	$child Component
+	 * @throws	LogicException Se o filho a ser removido não for filho desse pai
 	 */
 	public function removeChild( Component $child ) {
 		if ( $this->contains( $child ) ) {

@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -46,30 +47,32 @@
  * DE DADOS OU DADOS SENDO GERADOS DE FORMA IMPRECISA, PERDAS SOFRIDAS POR VOCÊ OU TERCEIROS OU A IMPOSSIBILIDADE DO
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
- *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	gui\composite
+ * 
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Base para os widgets da Interface gráfica de usuário
+ * @details		Toda a base dos objetos de interface de usuário concentram-se nesse pacote.
+ * @package		rpo.gui.composite
  */
 namespace rpo\gui\composite;
 
+use \InvalidArgumentException;
 use rpo\base\BaseObject;
 
 /**
  * Implementação de uma lista para os filhos de um componente
- * @abstract
- * @package		rpo
- * @subpackage	gui\composite
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @class	ComponentList
+ * @extends	AbstractList
  */
 class ComponentList extends \rpo\util\AbstractList {
 	/**
 	 * Verifica se um determinado objeto pode ser aceito pela Collection
-	 * @param \rpo\base\BaseObject $objeckkkt
-	 * @return boolean
+	 * @param	$object BaseObject
+	 * @return	boolean
+	 * @throws	InvalidArgumentException Se não for passado um Component à lista
 	 */
 	protected function accept( BaseObject $object ) {
 		if (  !$object->getClass()->isSubclassOf( 'rpo\gui\composite\Component' ) ) {
