@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -46,35 +47,35 @@
  * DE DADOS OU DADOS SENDO GERADOS DE FORMA IMPRECISA, PERDAS SOFRIDAS POR VOCÊ OU TERCEIROS OU A IMPOSSIBILIDADE DO
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
- *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	http\exception
+ * 
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Exceções HTTP
+ * @package		rpo.http.exception
  */
 namespace rpo\http\exception;
 
 use Exception;
 
 /**
- * The server understood the request, but is refusing to fulfill it.
+ * @brief		HTTP 403 Forbiden.
+ * @details		The server understood the request, but is refusing to fulfill it.
  * <p>
  * Authorization will not help and the request SHOULD NOT be repeated. If the request method was not HEAD and the server wishes
  * to make public why the request has not been fulfilled, it SHOULD describe the reason for the refusal in the entity.
  * If the server does not wish to make this information available to the client, the status code 404 (Not Found) can be used instead.</p>
- * @final
- * @package		rpo
- * @subpackage	http\exception
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @class		ForbiddenException
+ * @extends		AbstractClientException
  * @see			NotFountException
  */
 final class ForbiddenException extends \rpo\http\exception\AbstractClientException {
 	/**
 	 * Constroi o objeto da exceção
-	 * @param string $message A exceção
-	 * @param \Exception $parent
+	 * @param $message string A exceção
+	 * @param $previous Exception
 	 */
 	public function __construct( $message , Exception $previous = null ) {
 		parent::__construct( $message , 403 , $previous );

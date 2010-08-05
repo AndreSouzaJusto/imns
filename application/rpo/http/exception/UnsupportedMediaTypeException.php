@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -46,31 +47,31 @@
  * DE DADOS OU DADOS SENDO GERADOS DE FORMA IMPRECISA, PERDAS SOFRIDAS POR VOCÊ OU TERCEIROS OU A IMPOSSIBILIDADE DO
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
- *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	http\exception
+ * 
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Exceções HTTP
+ * @package		rpo.http.exception
  */
 namespace rpo\http\exception;
 
 use Exception;
 
 /**
- * The server is refusing to service the request because the entity of the request is in a format
- * not supported by the requested resource for the requested method.
- * @final
- * @package		rpo
- * @subpackage	http\exception
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @brief		HTTP 415 Unsupported Media Type.
+ * @details		The server is refusing to service the request because the entity of the request is in a
+ * format not supported by the requested resource for the requested method.
+ * @class		UnsupportedMediaTypeException
+ * @extends		AbstractClientException
  */
 final class UnsupportedMediaTypeException extends \rpo\http\exception\AbstractClientException {
 	/**
 	 * Constroi o objeto da exceção
-	 * @param string $message A exceção
-	 * @param \Exception $parent
+	 * @param $message string A exceção
+	 * @param $previous Exception
 	 */
 	public function __construct( $message , Exception $previous = null ) {
 		parent::__construct( $message , 415 , $previous );

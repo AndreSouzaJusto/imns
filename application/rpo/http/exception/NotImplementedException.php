@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -47,32 +48,32 @@
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
  *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	http\exception
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Exceções HTTP
+ * @package		rpo.http.exception
  */
 namespace rpo\http\exception;
 
 use Exception;
 
 /**
- * The server does not support the functionality required to fulfill the request.
+ * @brief		HTTP 501 Internal Server Error.
+ * @details		The server does not support the functionality required to fulfill the request.
  * <p>
  * This is the appropriate response when the server does not recognize the request method
  * and is not capable of supporting it for any resource.</p>
- * @final
- * @package		rpo
- * @subpackage	http\exception
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @class		NotImplementedException
+ * @extends		AbstractServerException
  */
-final class InternalServerErrorException extends \rpo\http\exception\AbstractServerException {
+final class NotImplementedException extends \rpo\http\exception\AbstractServerException {
 	/**
 	 * Constroi o objeto da exceção
-	 * @param string $message A exceção
-	 * @param \Exception $parent
+	 * @param $message string A exceção
+	 * @param $previous Exception
 	 */
 	public function __construct( $message , Exception $previous = null ) {
 		parent::__construct( $message , 501 , $previous );

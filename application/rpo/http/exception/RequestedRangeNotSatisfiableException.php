@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -47,39 +48,41 @@
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
  *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	http\exception
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Exceções HTTP
+ * @package		rpo.http.exception
  */
 namespace rpo\http\exception;
 
 use Exception;
 
 /**
- * A server SHOULD return a response with this status code if a request included a Range request-header
- * field (section 14.35), and none of the range-specifier values in this field overlap the current extent
- * of the selected resource, and the request did not include an If-Range request-header field.
+ * @brief		HTTP 416 Requested Range Not Satisfiable.
+ * @details		A server SHOULD return a response with this status code if a request included a Range
+ * request-header field (section 14.35), and none of the range-specifier values in this field overlap
+ * the current extent of the selected resource, and the request did not include an If-Range request-header
+ * field.
  * <p>
  * (For byte-ranges, this means that the first- byte-pos of all of the byte-range-spec values were greater
  * than the current length of the selected resource.
  *
  * When this status code is returned for a byte-range request, the response SHOULD include a Content-Range
  * entity-header field specifying the current length of the selected resource (see section 14.16).
- * This response MUST NOT use the multipart/byteranges content- type.</p>
- * @final
- * @package		rpo
- * @subpackage	http\exception
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @link		http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.16
+ * This response MUST NOT use the multipart/byteranges content- type.
+ * http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.16
+ * </p>
+ * @class		RequestedRangeNotSatisfiableException
+ * @extends		AbstractClientException
  */
 final class RequestedRangeNotSatisfiableException extends \rpo\http\exception\AbstractClientException {
 	/**
 	 * Constroi o objeto da exceção
-	 * @param string $message A exceção
-	 * @param \Exception $parent
+	 * @param $message string A exceção
+	 * @param $previous Exception
 	 */
 	public function __construct( $message , Exception $previous = null ) {
 		parent::__construct( $message , 416 , $previous );

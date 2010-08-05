@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -46,37 +47,37 @@
  * DE DADOS OU DADOS SENDO GERADOS DE FORMA IMPRECISA, PERDAS SOFRIDAS POR VOCÊ OU TERCEIROS OU A IMPOSSIBILIDADE DO
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
- *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	http\exception
+ * 
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Exceções HTTP
+ * @package		rpo.http.exception
  */
 namespace rpo\http\exception;
 
 use Exception;
 
 /**
- * The server does not support, or refuses to support, the HTTP protocol version that was used in the request message.
+ * @brief		HTTP 505 HTTP Version Not Supported.
+ * @details		The server does not support, or refuses to support, the HTTP protocol version that was used in the request message.
  * <p>
  * The server is indicating that it is unable or unwilling to complete the request using the same
  * major version as the client, as described in section 3.1, other than with this error message.
  * The response SHOULD contain an entity describing why that version is not supported and what other
  * protocols are supported by that server.</p>
- * @final
- * @package		rpo
- * @subpackage	http\exception
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @class		HttpVersionNotSupportedException
+ * @extends		AbstractServerException
  * @see			BadRequestException
  * @see			InternalServerErrorException
  */
 final class HttpVersionNotSupportedException extends \rpo\http\exception\AbstractServerException {
 	/**
 	 * Constroi o objeto da exceção
-	 * @param string $message A exceção
-	 * @param \Exception $parent
+	 * @param $message string A exceção
+	 * @param $previous Exception
 	 */
 	public function __construct( $message , Exception $previous = null ) {
 		parent::__construct( $message , 505 , $previous );

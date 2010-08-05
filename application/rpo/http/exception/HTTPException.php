@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -46,22 +47,50 @@
  * DE DADOS OU DADOS SENDO GERADOS DE FORMA IMPRECISA, PERDAS SOFRIDAS POR VOCÊ OU TERCEIROS OU A IMPOSSIBILIDADE DO
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
- *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	http\exception
+ * 
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Exceções HTTP
+ * @package		rpo.http.exception
  */
 namespace rpo\http\exception;
 
+use ReflectionClass;
+use rpo\base\BaseObject;
+use rpo\base\Strings;
+
 /**
  * Interface para exceções Http
- * @abstract
- * @package		rpo
- * @subpackage	http\exception
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @class		HTTPException
+ * @extends		Exception
+ * @implements	BaseObject
  */
-abstract class HTTPException extends \Exception {
+abstract class HTTPException extends \Exception implements \rpo\base\BaseObject {
+	/**
+	 * Recupera uma instância de ReflectionClass para o objeto
+	 * @return ReflectionClass
+	 */
+	public function getClass() {
+		return new ReflectionClass( get_class( $this ) );
+	}
+
+	/**
+	 * Verifica se um objeto é igual à outro utilizando seus hashCodes
+	 * @param $object BaseObject
+	 * @return boolean
+	 */
+	public function equals( BaseObject $object ) {
+		return $this->hashCode() == $object->hashCode();
+	}
+
+	/**
+	 * Recupera um hash para o objeto
+	 * @return Strings
+	 */
+	public function hashCode() {
+		return new Strings( spl_object_hash( $this ) );
+	}
 }

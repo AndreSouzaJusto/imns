@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -47,40 +48,40 @@
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
  *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	http\exception
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Exceções HTTP
+ * @package		rpo.http.exception
  */
 namespace rpo\http\exception;
 
 use Exception;
 
 /**
- * This code is similar to 401 (Unauthorized), but indicates that the client must first authenticate
- * itself with the proxy.
+ * @brief		HTTP 407 Proxy Authentication Required.
+ * @details		This code is similar to 401 (Unauthorized), but indicates that the client must first
+ * authenticate itself with the proxy.
  * <p>
  * The proxy MUST return a Proxy-Authenticate header field (section 14.33) containing a challenge applicable
  * to the proxy for the requested resource.
  * The client MAY repeat the request with a suitable Proxy-Authorization header field (section 14.34).
  * HTTP access authentication is explained in "HTTP Authentication: Basic and Digest Access Authentication".
+ * http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.33
+ * http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.34
+ * http://www.w3.org/Protocols/rfc2616/rfc2616-sec17.html#bib43
  * </p>
- * @final
- * @package		http
- * @subpackage	exception
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @link		http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.33
- * @link		http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.34
- * @link		http://www.w3.org/Protocols/rfc2616/rfc2616-sec17.html#bib43
+ * @class		ProxyAuthenticationRequiredException
+ * @extends		AbstractClientException
  * @see			UnauthorizedException
  */
 final class ProxyAuthenticationRequiredException extends \rpo\http\exception\AbstractClientException {
 	/**
 	 * Constroi o objeto da exceção
-	 * @param string $message A exceção
-	 * @param \Exception $parent
+	 * @param $message string A exceção
+	 * @param $previous Exception
 	 */
 	public function __construct( $message , Exception $previous = null ) {
 		parent::__construct( $message , 407 , $previous );
