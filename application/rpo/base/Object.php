@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -46,31 +47,36 @@
  * DE DADOS OU DADOS SENDO GERADOS DE FORMA IMPRECISA, PERDAS SOFRIDAS POR VOCÊ OU TERCEIROS OU A IMPOSSIBILIDADE DO
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
- *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	base
+ * 
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Pacote base da RPO
+ * @details		Toda estrutura da RPO baseia-se no pacote base, onde são definidos a interface
+ * BaseObject e o objeto Object dos quais grande parte dos objetos da RPO derivam.
+ * @package		rpo.base
  */
 namespace rpo\base;
 
 use \ReflectionClass;
 use rpo\base\BaseObject;
+use rpo\base\Strings;
 
 /**
- * Implementação do objeto base, todos os objetos derivam desse objeto primário ou
+ * @brief		Objeto base da RPO
+ * @class		Object
+ * @details		Implementação do objeto base, todos os objetos derivam desse objeto primário ou
  * implementam de alguma forma a interface BaseObject
  * @author		João Batista Neto
- * @package		rpo
- * @subpackage	base
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @extends		stdClass
+ * @implements	BaseObject
  */
 class Object extends \stdClass implements \rpo\base\BaseObject {
 	/**
 	 * Recupera uma instância de ReflectionClass para o objeto
-	 * @return \ReflectionClass
+	 * @return ReflectionClass
 	 */
 	public function getClass() {
 		return new ReflectionClass( get_class( $this ) );
@@ -78,7 +84,7 @@ class Object extends \stdClass implements \rpo\base\BaseObject {
 
 	/**
 	 * Verifica se um objeto é igual à outro utilizando seus hashCodes
-	 * @param \rpo\base\BaseObject $object
+	 * @param $object BaseObject
 	 * @return boolean
 	 */
 	public function equals( BaseObject $object ) {
@@ -87,9 +93,9 @@ class Object extends \stdClass implements \rpo\base\BaseObject {
 
 	/**
 	 * Recupera um hash para o objeto
-	 * @return \rpo\base\String
+	 * @return Strings
 	 */
 	public function hashCode() {
-		return new \rpo\base\String( spl_object_hash( $this ) );
+		return new Strings( spl_object_hash( $this ) );
 	}
 }

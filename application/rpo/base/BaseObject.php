@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -46,41 +47,46 @@
  * DE DADOS OU DADOS SENDO GERADOS DE FORMA IMPRECISA, PERDAS SOFRIDAS POR VOCÊ OU TERCEIROS OU A IMPOSSIBILIDADE DO
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
- *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	base
+ * 
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Pacote base da RPO
+ * @details		Toda estrutura da RPO baseia-se no pacote base, onde são definidos a interface
+ * BaseObject e o objeto Object dos quais grande parte dos objetos da RPO derivam.
+ * @package		rpo.base
  */
 namespace rpo\base;
 
+use \ReflectionClass;
+use rpo\base\BaseObject;
+
 /**
- * Interface para definição do objeto base da aplicação. Todos os objetos
+ * @brief		Interface base da RPO
+ * @details		Interface para definição do objeto base da aplicação. Todos os objetos
  * da aplicação devem implementar, de uma forma ou de outra, esta interface.
  * @author		João Batista Neto
- * @package		rpo
- * @subpackage	base
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @interface	BaseObject
  */
 interface BaseObject {
 	/**
 	 * Recupera uma instância de ReflectionClass para o objeto
-	 * @return \ReflectionClass
+	 * @return ReflectionClass
 	 */
 	public function getClass();
 
 	/**
 	 * Verifica se um objeto é igual à outro utilizando seus hashCodes
-	 * @param \rpo\base\BaseObject $object
-	 * @return boolean
+	 * @param	$object BaseObject
+	 * @return	boolean
 	 */
 	public function equals( BaseObject $object );
 
 	/**
 	 * Recupera um hash para o objeto
-	 * @return \rpo\base\String
+	 * @return Strings
 	 */
 	public function hashCode();
 }
