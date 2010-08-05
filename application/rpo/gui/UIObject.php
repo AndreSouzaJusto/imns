@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -10,7 +11,7 @@
  * 2. O direito de estudar como o programa funciona e adptá-lo para suas necessidades.
  * 3. O direito de redistribuir cópias, permitindo assim que você ajude outras pessoas.
  * 4. O direito de aperfeiçoar o programa, e distribuir seus aperfeiçoamentos para o público,
- *    beneficiando assim toda a comunidade.
+ * beneficiando assim toda a comunidade.
  *
  * Você terá os direitos acima especificados contanto que Você cumpra com os requisitos expressos
  * nesta Licença.
@@ -46,87 +47,80 @@
  * DE DADOS OU DADOS SENDO GERADOS DE FORMA IMPRECISA, PERDAS SOFRIDAS POR VOCÊ OU TERCEIROS OU A IMPOSSIBILIDADE DO
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
- *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	gui
+ * 
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Interface gráfica de usuário
+ * @details		Toda a base dos objetos de interface de usuário concentram-se nesse pacote.
+ * @package		rpo.gui
  */
 namespace rpo\gui;
 
 use \UnexpectedValueException;
-use rpo\base\String;
+use rpo\base\Strings;
+use rpo\gui\composite\Component;
 
 /**
  * Objeto base para todos os objetos de interface de usuário
- * @abstract
- * @package		rpo
- * @subpackage	gui
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @author	João Batista Neto
+ * @class	UIObject
+ * @extends	Component
  */
 abstract class UIObject extends \rpo\gui\composite\Component {
 	/**
 	 * Altura do objeto
-	 * @access	private
-	 * @var		integer
+	 * @var	integer
 	 */
 	private $height;
 
 	/**
 	 * ID do objeto
-	 * @access	private
-	 * @var		\rpo\base\String
+	 * @var	Strings
 	 */
 	private $id;
 
 	/**
 	 * Nome do objeto
-	 * @access	private
-	 * @var		\rpo\base\String
+	 * @var	Strings
 	 */
 	private $name;
 
 	/**
 	 * Classe CSS primária do objeto
-	 * @access	private
-	 * @var		\rpo\base\String
+	 * @var	Strings
 	 */
 	private $primaryStyle;
 
 	/**
 	 * Define se o objeto é apenas leitura
-	 * @access	private
-	 * @var		boolean
+	 * @var	boolean
 	 */
 	private $readOnly = false;
 
 	/**
 	 * Classe CSS do objeto
-	 * @access	private
-	 * @var		\rpo\base\String
+	 * @var	Strings
 	 */
 	private $style;
 
 	/**
 	 * Título do objeto
-	 * @access	private
-	 * @var		\rpo\base\String
+	 * @var	Strings
 	 */
 	private $title;
 
 	/**
 	 * Visibilidade do objeto
-	 * @access	private
-	 * @var		boolean
+	 * @var	boolean
 	 */
 	private $visible = true;
 
 	/**
 	 * Largura do objeto
-	 * @access	private
-	 * @var		integer
+	 * @var	integer
 	 */
 	private $width;
 
@@ -136,21 +130,21 @@ abstract class UIObject extends \rpo\gui\composite\Component {
 	public function __construct(){
 		parent::__construct();
 
-		$this->id = new String( uniqid( 'id' ) );
-		$this->name = new String();
-		$this->style = new String();
-		$this->title = new String();
+		$this->id = new Strings( uniqid( 'id' ) );
+		$this->name = new Strings();
+		$this->style = new Strings();
+		$this->title = new Strings();
 	}
 
 	/**
 	 * Adiciona uma nova classe CSS ao objeto
-	 * @param \rpo\base\String $style Nome da classe CSS
+	 * @param $style Strings Nome da classe CSS
 	 */
-	public function addStyleName( String $style ){
+	public function addStyleName( Strings $style ){
 		if ( $this->style->isEmpty() ){
 			$this->setStyleName( $style );
 		} else {
-			$this->style->format( new String( ' %s' ) , $style );
+			$this->style->format( new Strings( ' %s' ) , $style );
 		}
 	}
 
@@ -164,7 +158,7 @@ abstract class UIObject extends \rpo\gui\composite\Component {
 
 	/**
 	 * Recupera o ID do objeto
-	 * @return \rpo\base\String
+	 * @return Strings
 	 */
 	public function getId(){
 		return $this->id;
@@ -172,7 +166,7 @@ abstract class UIObject extends \rpo\gui\composite\Component {
 
 	/**
 	 * Recupera o nome do objeto
-	 * @return \rpo\base\String
+	 * @return Strings
 	 */
 	public function getName(){
 		return $this->name;
@@ -180,7 +174,7 @@ abstract class UIObject extends \rpo\gui\composite\Component {
 
 	/**
 	 * Recupera a classe CSS primária do objeto
-	 * @return \rpo\base\String
+	 * @return Strings
 	 */
 	public function getPrimaryStyle(){
 		return $this->primaryStyle;
@@ -188,7 +182,7 @@ abstract class UIObject extends \rpo\gui\composite\Component {
 
 	/**
 	 * Recupera todas as classes CSS relacionadas ao objeto
-	 * @return \rpo\base\String
+	 * @return Strings
 	 */
 	public function getStyleName(){
 		return $this->style;
@@ -196,7 +190,7 @@ abstract class UIObject extends \rpo\gui\composite\Component {
 
 	/**
 	 * Recupera o título do objeto
-	 * @return \rpo\base\String
+	 * @return Strings
 	 */
 	public function getTitle(){
 		return $this->title;
@@ -228,7 +222,7 @@ abstract class UIObject extends \rpo\gui\composite\Component {
 
 	/**
 	 * Define a altura do objeto
-	 * @param integer $height
+	 * @param $height integer
 	 * @throws UnexpectedValueException
 	 */
 	public function setHeight( $height ){
@@ -241,23 +235,23 @@ abstract class UIObject extends \rpo\gui\composite\Component {
 
 	/**
 	 * Define o ID do objeto
-	 * @param String $id
+	 * @param $id Strings
 	 */
-	public function setId( String $id ){
+	public function setId( Strings $id ){
 		$this->id = $id;
 	}
 
 	/**
 	 * Define o nome do objeto
-	 * @param String $name
+	 * @param $name Strings
 	 */
-	public function setName( String $name ){
+	public function setName( Strings $name ){
 		$this->name = $name;
 	}
 
 	/**
 	 * Define se o objeto é apenas leitura ou não
-	 * @param boolean $readOnly
+	 * @param $readOnly boolean
 	 * @throws UnexpectedValueException Se readonly não for um boolean
 	 */
 	public function setReadOnly( $readOnly = true ){
@@ -270,24 +264,24 @@ abstract class UIObject extends \rpo\gui\composite\Component {
 
 	/**
 	 * Define o nome da classe CSS do objeto
-	 * @param \rpo\base\String $style
+	 * @param $style Strings
 	 */
-	public function setStyleName( String $style ){
+	public function setStyleName( Strings $style ){
 		$this->primaryStyle = $style;
 		$this->style = $style;
 	}
 
 	/**
 	 * Define o título do objeto
-	 * @param \rpo\base\String $title
+	 * @param $title Strings
 	 */
-	public function setTitle( String $title ){
+	public function setTitle( Strings $title ){
 		$this->title = $title;
 	}
 
 	/**
 	 * Define a visibilidade do objeto
-	 * @param boolean $visible
+	 * @param $visible boolean
 	 * @throws UnexpectedValueException Se visible não for um boolean
 	 */
 	public function setVisible( $visible = true ){
@@ -300,7 +294,7 @@ abstract class UIObject extends \rpo\gui\composite\Component {
 
 	/**
 	 * Define a largura do objeto
-	 * @param integer $width
+	 * @param $width integer
 	 * @throws UnexpectedValueException Se a largura informada não for um inteiro
 	 */
 	public function setWidth( $width ){
