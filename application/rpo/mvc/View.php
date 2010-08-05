@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -46,13 +47,14 @@
  * DE DADOS OU DADOS SENDO GERADOS DE FORMA IMPRECISA, PERDAS SOFRIDAS POR VOCÊ OU TERCEIROS OU A IMPOSSIBILIDADE DO
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
- *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	mvc
+ * 
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Classes e Interfaces para definição de um MVC hierárquico
+ * @package		rpo.mvc
  */
 namespace rpo\mvc;
 
@@ -60,14 +62,13 @@ use rpo\http\HTTPResponse;
 
 /**
  * Interface para definição de uma View
- * @package		rpo
- * @subpackage	mvc
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @interface	View
+ * @extends		BaseObject
  */
 interface View extends \rpo\base\BaseObject {
 	/**
 	 * Configura a View utilizando o componente Root
-	 * @param \rpo\http\HTTPResponse $response
+	 * @param $response HTTPResponse
 	 */
 	public function configure( HTTPResponse $response );
 

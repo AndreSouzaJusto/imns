@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -46,13 +47,14 @@
  * DE DADOS OU DADOS SENDO GERADOS DE FORMA IMPRECISA, PERDAS SOFRIDAS POR VOCÊ OU TERCEIROS OU A IMPOSSIBILIDADE DO
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
- *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	mvc
+ * 
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Classes e Interfaces para definição de um MVC hierárquico
+ * @package		rpo.mvc
  */
 namespace rpo\mvc;
 
@@ -63,29 +65,27 @@ use rpo\http\HTTPRequest;
 
 /**
  * Interface para definição de um encadeamento de controladores
- * @package		rpo
- * @subpackage	mvc
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @class		ControllerChain
+ * @extends		Object
+ * @implements	Controller
+ * @implements	IteratorAggregate
  */
 abstract class ControllerChain extends \rpo\base\Object implements \rpo\mvc\Controller, \IteratorAggregate {
 	/**
 	 * Lista de controladores
-	 * @access	private
-	 * @var		\rpo\mvc\ControllerList
+	 * @var		ControllerList
 	 */
 	private $controllers;
 
 	/**
 	 * Iterator de controladores
-	 * @access	private
-	 * @var		\Iterator
+	 * @var		Iterator
 	 */
 	private $iterator;
 
 	/**
 	 * Controlador anterior na hierarquia de controladores
-	 * @access	private
-	 * @var		\rpo\mvc\ControllerChain
+	 * @var		ControllerChain
 	 */
 	private $previous;
 
@@ -98,7 +98,7 @@ abstract class ControllerChain extends \rpo\base\Object implements \rpo\mvc\Cont
 
 	/**
 	 * Anexa um controlador à aplicação
-	 * @param \rpo\mvc\ControllerChain $controller
+	 * @param $controller ControllerChain
 	 * @return boolean TRUE se o controlador tiver sido anexado com sucesso
 	 */
 	public function attach( ControllerChain $controller ) {
@@ -115,7 +115,7 @@ abstract class ControllerChain extends \rpo\base\Object implements \rpo\mvc\Cont
 
 	/**
 	 * Verifica se o controlador manipula a requisição
-	 * @param \rpo\http\HTTPRequest $request
+	 * @param $request HTTPRequest
 	 * @return boolean;
 	 */
 	public function canHandle( HTTPRequest $request ) {
@@ -134,14 +134,14 @@ abstract class ControllerChain extends \rpo\base\Object implements \rpo\mvc\Cont
 
 	/**
 	 * Configura o controlador
-	 * @param \rpo\mvc\ControllerChain $controller
+	 * @param $controller ControllerChain
 	 */
 	protected function configure( ControllerChain $controller ) {
 	}
 
 	/**
 	 * Remove um controlador da aplicação
-	 * @param \rpo\mvc\ControllerChain $controller
+	 * @param $controller ControllerChain
 	 * @return boolean TRUE se o controlador tiver sido removido
 	 */
 	public function detach( ControllerChain $controller ) {
@@ -152,7 +152,7 @@ abstract class ControllerChain extends \rpo\base\Object implements \rpo\mvc\Cont
 
 	/**
 	 * Recupera um iterator de controladores
-	 * @return \Iterator
+	 * @return Iterator
 	 */
 	public function getIterator() {
 		return $this->controllers->getIterator();
@@ -160,7 +160,7 @@ abstract class ControllerChain extends \rpo\base\Object implements \rpo\mvc\Cont
 
 	/**
 	 * Recupera a resposta
-	 * @return \rpo\http\HTTPResponse
+	 * @return HTTPResponse
 	 */
 	public function getResponse() {
 		$ret = null;
@@ -178,7 +178,7 @@ abstract class ControllerChain extends \rpo\base\Object implements \rpo\mvc\Cont
 
 	/**
 	 * Define o controlador anterior
-	 * @param \rpo\mvc\ControllerChain $controller
+	 * @param $controller ControllerChain
 	 */
 	public function setPrevious( ControllerChain $controller ) {
 		$this->previous = $controller;

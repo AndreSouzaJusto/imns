@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -46,13 +47,14 @@
  * DE DADOS OU DADOS SENDO GERADOS DE FORMA IMPRECISA, PERDAS SOFRIDAS POR VOCÊ OU TERCEIROS OU A IMPOSSIBILIDADE DO
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
- *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	mvc
+ * 
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Classes e Interfaces para definição de um MVC hierárquico
+ * @package		rpo.mvc
  */
 namespace rpo\mvc;
 
@@ -60,27 +62,26 @@ use rpo\http\HTTPRequest;
 
 /**
  * Interface para definição de um controlador
- * @package		rpo
- * @subpackage	mvc
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @interface	Controller
+ * @extends		BaseObject
  */
 interface Controller extends \rpo\base\BaseObject {
 	/**
 	 * Verifica se o controlador sabe manipular a requisição
-	 * @param \rpo\http\HTTPRequest $request
+	 * @param $request HTTPRequest
 	 * @return boolean
 	 */
 	public function canHandle( HTTPRequest $request );
 
 	/**
 	 * Recupera o objeto de resposta
-	 * @return \rpo\http\HTTPResponse
+	 * @return HTTPResponse
 	 */
 	public function getResponse();
 
 	/**
 	 * Manipula a requisição do usuário
-	 * @param \rpo\http\HTTPRequest $request
+	 * @param $request HTTPRequest
 	 */
 	public function handle( HTTPRequest $request );
 }

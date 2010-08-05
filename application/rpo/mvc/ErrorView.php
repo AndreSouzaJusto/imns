@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -46,46 +47,47 @@
  * DE DADOS OU DADOS SENDO GERADOS DE FORMA IMPRECISA, PERDAS SOFRIDAS POR VOCÊ OU TERCEIROS OU A IMPOSSIBILIDADE DO
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
- *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	mvc
+ * 
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Classes e Interfaces para definição de um MVC hierárquico
+ * @package		rpo.mvc
  */
 namespace rpo\mvc;
 
 use \Exception;
-use rpo\base\String;
+use rpo\base\Strings;
 use rpo\http\HTTPResponse;
 use rpo\http\header\fields\Protocol;
-use rpo\gui\HTMLPage;
+use rpo\gui\html\HTMLPage;
 use rpo\gui\widget\Heading;
 use rpo\gui\widget\Paragraph;
 use rpo\gui\widget\panel\SimplePanel;
 
 /**
  * Implementação de uma página de erro simples
- * @package		rpo
- * @subpackage	mvc
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @class		ErrorView
+ * @extends		Object
+ * @implements	View
  */
 class ErrorView extends \rpo\base\Object implements \rpo\mvc\View {
 	/**
-	 * @var \Exception
+	 * @var Exception
 	 */
 	private $exception;
 
 	/**
 	 * Resposta HTTP
-	 * @var \rpo\http\HTTPResponse
+	 * @var HTTPResponse
 	 */
 	private $response;
 
 	/**
 	 * Constroi a View de erro
-	 * @param Exception $e
+	 * @param $e Exception
 	 */
 	public function __construct( Exception $e ){
 		$this->exception = $e;
@@ -93,19 +95,19 @@ class ErrorView extends \rpo\base\Object implements \rpo\mvc\View {
 
 	/**
 	 * Configura a View
-	 * @param \rpo\http\HTTPResponse $response
+	 * @param $response HTTPResponse
 	 */
 	public function configure( HTTPResponse $response ){
 		$this->response = $response;
 		$this->response->getHeaders()->add( new Protocol( Protocol::HTTP , Protocol::HTTP_1_1 , $this->exception->getCode() ) );
 
 		$page = new HTMLPage();
-		$page->setTitle( new String( 'Ocorreu um erro.' ) );
+		$page->setTitle( new Strings( 'Ocorreu um erro.' ) );
 		$page->appendChild( $panel = new SimplePanel() );
 
-		$panel->setStyleName( new String( 'error' ) );
-		$panel->appendChild( new Heading( new String( 'Ocorreu um erro:' ) ) );
-		$panel->appendChild( new Paragraph( new String( $this->exception->getMessage() ) ) );
+		$panel->setStyleName( new Strings( 'error' ) );
+		$panel->appendChild( new Heading( new Strings( 'Ocorreu um erro:' ) ) );
+		$panel->appendChild( new Paragraph( new Strings( $this->exception->getMessage() ) ) );
 
 		$root = $this->response->getBody()->getComposite();
 		$root->clear();

@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Licenciado sobre os termos da CC-GNU GPL versão 2.0 ou posterior.
  *
  * A GNU General Public License é uma licença de Software Livre ("Free Software").
@@ -46,32 +47,33 @@
  * DE DADOS OU DADOS SENDO GERADOS DE FORMA IMPRECISA, PERDAS SOFRIDAS POR VOCÊ OU TERCEIROS OU A IMPOSSIBILIDADE DO
  * PROGRAMA DE OPERAR COM QUAISQUER OUTROS PROGRAMAS), MESMO QUE ESSE TITULAR, OU OUTRA PARTE, TENHA SIDO ALERTADA
  * SOBRE A POSSIBILIDADE DE OCORRÊNCIA DESSES DANOS.
- *
- * @author		João Batista Neto
- * @copyright	Copyright(c) 2010, João Batista Neto
- * @license		http://creativecommons.org/licenses/GPL/2.0/deed.pt
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
- * @package		rpo
- * @subpackage	mvc
+ * 
+ * http://creativecommons.org/licenses/GPL/2.0/deed.pt
+ * http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ */
+
+/**
+ * @brief		Classes e Interfaces para definição de um MVC hierárquico
+ * @package		rpo.mvc
  */
 namespace rpo\mvc;
 
 use rpo\http\HTTPRequest;
+use rpo\http\HTTPResponse;
+use rpo\http\header\fields\XPoweredBy;
 use rpo\http\exception\HTTPException;
 use rpo\http\exception\InternalServerErrorException;
 use rpo\http\exception\BadRequestException;
 
 /**
  * Controlador principal da aplicação
- * @final
- * @package		rpo
- * @subpackage	mvc
- * @license		http://creativecommons.org/licenses/GPL/2.0/legalcode.pt
+ * @class	Application
+ * @extends	ControllerChain
  */
 final class Application extends \rpo\mvc\ControllerChain {
 	/**
 	 * Objeto de resposta
-	 * @var \rpo\http\HTTPResponse
+	 * @var HTTPResponse
 	 */
 	private $response;
 
@@ -81,12 +83,12 @@ final class Application extends \rpo\mvc\ControllerChain {
 	public function __construct() {
 		parent::__construct();
 
-		$this->response = \rpo\http\HTTPResponse::getInstance();
+		$this->response = HTTPResponse::getInstance();
 	}
 
 	/**
 	 * Cria a exibição padrão de erro
-	 * @param \rpo\http\exception\HTTPException $e
+	 * @param $e HTTPException
 	 */
 	private function createErrorResponse( HTTPException $e ) {
 		$errorView = new ErrorView( $e );
@@ -96,7 +98,7 @@ final class Application extends \rpo\mvc\ControllerChain {
 
 	/**
 	 * Recupera o objeto de resposta
-	 * @return \rpo\http\HTTPResponse
+	 * @return HTTPResponse
 	 */
 	public function getResponse() {
 		return $this->response;
@@ -104,7 +106,7 @@ final class Application extends \rpo\mvc\ControllerChain {
 
 	/**
 	 * Repassa a requisição do usuário à todos os controladores anexados
-	 * @param \rpo\http\HTTPRequest $request
+	 * @param $request HTTPRequest
 	 */
 	public function handle( HTTPRequest $request ) {
 		$iterator = $this->getIterator();
@@ -115,7 +117,6 @@ final class Application extends \rpo\mvc\ControllerChain {
 				try {
 					/**
 					 * Controlador de primeiro nível que foi anexado ao objeto Application
-					 * @var \rpo\mvc\ControllerChain
 					 */
 					$applicationController = $iterator->current();
 
@@ -126,7 +127,7 @@ final class Application extends \rpo\mvc\ControllerChain {
 					}
 
 					$response = $this->getResponse();
-					$response->getHeaders()->add( new \rpo\http\header\fields\XPoweredBy( 'RPO-0.1' ) );
+					$response->getHeaders()->add( new XPoweredBy( 'RPO-0.1' ) );
 					$response->show();
 				} catch ( HTTPException $e ) {
 					$this->createErrorResponse( $e );
